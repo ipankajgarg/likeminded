@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1014868015125",
+    "firebase_url": "https://likeminded-193904.firebaseio.com",
+    "project_id": "likeminded-193904",
+    "storage_bucket": "likeminded-193904.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014868015125:android:d897b50b573e8abb",
+        "android_client_info": {
+          "package_name": "com.likeminded"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1014868015125-veepuie6thjv017e03cp7n6fi6hcccaa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.likeminded",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1014868015125-pupqkofkoikrrg8f3beot8mmibcul5bi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFoLVHPCvquRRxYItX0uLxNc8rNeTKYmY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1014868015125-pupqkofkoikrrg8f3beot8mmibcul5bi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
