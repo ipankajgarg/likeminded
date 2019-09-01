@@ -1,10 +1,6 @@
 //const graphql = require('graphql')
 const graphql = require("graphql");
-const userAuth = require('../helpers/userAuth')
-
-
-
-
+const userAuth = require("../helpers/userAuth");
 
 const {
   GraphQLSchema,
@@ -38,18 +34,14 @@ const DemoType = new GraphQLObjectType({
   }
 });
 
-
 const UserToken = new GraphQLObjectType({
-name:"UserToken",
-fields:{
-token:{type:GraphQLString},
-email:{type:GraphQLString},
-name:{type:GraphQLString}
-
-}
-
-
-})
+  name: "UserToken",
+  fields: {
+    token: { type: GraphQLString },
+    email: { type: GraphQLString },
+    name: { type: GraphQLString }
+  }
+});
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
@@ -57,6 +49,7 @@ const RootQuery = new GraphQLObjectType({
     demo: {
       type: DemoType,
       resolve(parentValue, args, context) {
+        console.log("incoming request");
         return { name: "pankaj" };
       }
     },
@@ -69,8 +62,13 @@ const RootQuery = new GraphQLObjectType({
           }, 2000);
         });
       }
-    },
+    }
+  }
+});
 
+const Mutation = new GraphQLObjectType({
+  name: "Mutation",
+  fields: {
     signIn: {
       type: UserToken,
       args: {
@@ -78,15 +76,15 @@ const RootQuery = new GraphQLObjectType({
         name: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parentValue, { email, name }, context) {
-console.log("print",userAuth(email,name))
+        console.log("print", userAuth(email, name));
 
-return userAuth(email,name)
-
+        return userAuth(email, name);
       }
     }
   }
 });
 
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation:Mutation
 });
