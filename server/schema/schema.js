@@ -1,13 +1,14 @@
 //const graphql = require('graphql')
 const graphql = require("graphql");
 const userAuth = require("../helpers/userAuth");
-
 const {
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLInt,
   GraphQLNonNull
 } = graphql;
+const GraphQLLong = require('graphql-type-long')
 
 const CircleType = new GraphQLObjectType({
   name: "circle",
@@ -34,12 +35,10 @@ const DemoType = new GraphQLObjectType({
   }
 });
 
-const UserToken = new GraphQLObjectType({
+const Success = new GraphQLObjectType({
   name: "UserToken",
   fields: {
-    token: { type: GraphQLString },
-    email: { type: GraphQLString },
-    name: { type: GraphQLString }
+    message: { type: GraphQLString }
   }
 });
 
@@ -69,16 +68,23 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
-    signIn: {
-      type: UserToken,
+    isSignedIn: {
+      type: Success,
       args: {
         email: { type: new GraphQLNonNull(GraphQLString) },
         name: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parentValue, { email, name }, context) {
-        console.log("print", userAuth(email, name));
-
-        return userAuth(email, name);
+        return userAuth.isSignedIn(email, name);
+      }
+    },
+    isMobileNumberExist: {
+      type: Success,
+      args: {
+        mobileNumber: { type: new GraphQLNonNull(GraphQLLong) }
+      },
+      resolve(parentValue, { mobileNumber }, req) {
+        return userAuth.isMobileNumberExist(mobileNumber);
       }
     }
   }
@@ -86,5 +92,5 @@ const Mutation = new GraphQLObjectType({
 
 module.exports = new GraphQLSchema({
   query: RootQuery,
-  mutation:Mutation
+  mutation: Mutation
 });

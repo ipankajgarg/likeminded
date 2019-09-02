@@ -1,27 +1,34 @@
 const User = require("../models/userAuthModel");
 
-function userAuth(email, name) {
-  //  return User.create({ email, name }).then(function(){
+const userAuth = {
+  isSignedIn: function(email, name) {
+    return User.findOne({ email })
+      .then(function(user) {
+        console.log(user);
 
-  // return {token:"Pankaj here you go!"}
+        if (user) {
+          return { message: "pankaj here you go" };
+        }
+        return user;
+      })
+      .catch(function() {
+        return new Error("some internal server error please try later!");
+      });
+  },
 
-  //  }).catch(function(err){
-  // return new Error(err)
-  //  })
-
-  return User.findOne({ email })
-    .then(function(users) {
-
-console.log(users)
-
-      if (users !== null) {
-        return { token: "pankaj here you go" };
-      }
-      return users;
-    })
-    .catch(function() {
-      return new Error({ message: "some internal server error" });
-    });
-}
+  isMobileNumberExist: function(mobileNumber) {
+    return User.findOne({ mobileNumber })
+      .then(function(user) {
+        if (user) {
+          return new Error("user already exist with this number" );
+        }
+       // return new Error("some internal server error please try later!");
+        return { message: "pankaj here you go" };
+      })
+      .catch(function(err) {
+        return new Error("some internal server error please try later!");
+      });
+  }
+};
 
 module.exports = userAuth;

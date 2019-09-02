@@ -6,9 +6,10 @@ import {
   statusCodes,
 } from 'react-native-google-signin';
 import {graphql} from 'react-apollo';
-import signInMutation from '../mutations/signInMutation';
+import {isSignedInMutation} from '../../mutations/userAuthMutation';
 //import demo from '../queries/signInQuery';
-//import {SocialIcon} from 'react-native-elements';
+import {SocialIcon} from 'react-native-elements';
+import SnackBar from 'react-native-snackbar-component';
 
 class SignIn extends Component {
   // constructor(props){
@@ -16,12 +17,12 @@ class SignIn extends Component {
   //     this.signOut()
   // }
 
-  state = {userInfo: null};
+  state = {userInfo: null, isSigninInProgress: false, visible: false};
 
   componentDidMount() {
     console.log('calling');
     //this.revokeAccess()
-    this.getCurrentUser();
+    // this.getCurrentUser();
     GoogleSignin.configure({
       webClientId:
         '1014868015125-pupqkofkoikrrg8f3beot8mmibcul5bi.apps.googleusercontent.com',
@@ -46,26 +47,28 @@ class SignIn extends Component {
   };
 
   signIn = async () => {
+  
+    this.setState({isSigninInProgress: true});
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const {email, name} = userInfo.user;
 
-      this.props
-        .mutate({
-          variables: {email, name},
-        })
-        .then(data => {
-          if (data.signIn) {
-            alert('hurray you are good to go');
-          } else {
-            alert('sorry i am working on it');
-          }
-        })
-        .catch(err => console.log('error', err));
+      const response = await this.props.mutate({
+        variables: {email, name},
+      });
 
-      this.setState({userInfo});
+      if (response.signIn) {
+        alert('hurray you are good to go');
+      } else {
+        alert('sorry i am working on it');
+      }
+
+      this.setState({userInfo, isSigninInProgress: false});
+      
+      this.props.navigation.navigate("MobileNumber")
     } catch (error) {
+      this.setState({visible: true});
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
         console.log('cancelled');
@@ -84,6 +87,7 @@ class SignIn extends Component {
 
   render() {
     console.log(this.props, 'state', this.state);
+    const {visible, isSigninInProgress} = this.state;
 
     return (
       <View style={styles.container}>
@@ -91,16 +95,22 @@ class SignIn extends Component {
           <Text style={styles.brandText}>likeminded</Text>
         </View>
         <View style={{justifyContent: 'center', flex: 1}}>
-          {/* <SocialIcon type="twitter" /> */}
-
           <GoogleSigninButton
-            style={{width: 192, height: 48}}
-            // size={GoogleSigninButton.Size.Wide}
-            //color={GoogleSigninButton.Color.Dark}
+            style={{width: 250, height: 55}}
+            size={GoogleSigninButton.Size.Wide}
             onPress={this.signIn}
-            // disabled={this.state.isSigninInProgress}
+            disabled={isSigninInProgress}
           />
         </View>
+        <SnackBar
+          visible={visible}
+          textMessage="some error please try later"
+          backgroundColor="#ff0000"
+          autoHidingTime={2000}
+          actionHandler={() => {
+            console.log('snackbar button clicked!');
+          }}
+        />
       </View>
     );
   }
@@ -117,8 +127,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: Platform.OS === 'ios' ? 200 : 100,
 
-    fontSize: 24,
+    fontSize: 28,
   },
 });
 
-export default graphql(signInMutation)(SignIn);
+export default graphql(isSignedInMutation)(SignIn);
