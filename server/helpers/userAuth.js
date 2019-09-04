@@ -11,7 +11,8 @@ const userAuth = {
         }
         return user;
       })
-      .catch(function() {
+      .catch(function(err) {
+        console.log(err)
         return new Error("some internal server error please try later!");
       });
   },

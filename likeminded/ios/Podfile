@@ -32,6 +32,11 @@ target 'likeminded' do
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+  
+  pod 'react-native-geolocation', path: '../node_modules/@react-native-community/geolocation'
+
+
+  pod 'react-native-geocoder', :path => '../node_modules/react-native-geocoder'
 
   target 'likemindedTests' do
     inherit! :search_paths
