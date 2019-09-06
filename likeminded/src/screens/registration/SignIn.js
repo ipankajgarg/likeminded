@@ -5,17 +5,15 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from 'react-native-google-signin';
-import {graphql} from 'react-apollo';
+import {graphql,withApollo} from 'react-apollo';
 import {isSignedInMutation} from '../../mutations/userAuthMutation';
 //import demo from '../queries/signInQuery';
-import {SocialIcon} from 'react-native-elements';
+//import {SocialIcon} from 'react-native-elements';
 import SnackBar from 'react-native-snackbar-component';
 
+
 class SignIn extends Component {
-  // constructor(props){
-  //     super();
-  //     this.signOut()
-  // }
+ 
 
   state = {userInfo: null, isSigninInProgress: false, visible: false};
 
@@ -47,6 +45,8 @@ class SignIn extends Component {
   };
 
   signIn = async () => {
+
+    const {client} = this.props
   
     this.setState({isSigninInProgress: true});
     try {
@@ -61,11 +61,17 @@ class SignIn extends Component {
       if (response.signIn) {
         alert('hurray you are good to go');
       } else {
+
+
+client.writeData({data:{signInDetails:{email,name}}})
+
         alert('sorry i am working on it');
       }
 
       this.setState({userInfo, isSigninInProgress: false});
       
+
+
       this.props.navigation.navigate("MobileNumber")
     } catch (error) {
       this.setState({visible: true});
@@ -86,7 +92,7 @@ class SignIn extends Component {
   };
 
   render() {
-    console.log(this.props, 'state', this.state);
+    console.log(this.props, 'state', this.state,this.props.client);
     const {visible, isSigninInProgress} = this.state;
 
     return (
@@ -131,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default graphql(isSignedInMutation)(SignIn);
+export default withApollo(graphql(isSignedInMutation)(SignIn));

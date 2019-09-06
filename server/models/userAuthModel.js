@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
+const locationSchema = require('../mongooseSchema/locationSchema')
 
 const validateEmail = function(email) {
   var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -13,13 +14,19 @@ const user = new Schema({
     required: true,
     unique: true,
     index: true,
+    lowercase:true,
     validate: [validateEmail, "Please try a valid email address"]
   },
-  name: { type: String, required: true },
-  gender:{type:String,required:true},
-  mobileNumber:{type:Number,required:true},
-  profileImage:{type:String}
+  name: { type: String },
+  gender: { type: String },
+  mobileNumber: { type: Number, required: true },
+  profileImage: { type: String },
+  location:{type:locationSchema}
 });
+
+
+// TODO : name and gender should be required
+
 
 const Model = mongoose.model("users", user);
 

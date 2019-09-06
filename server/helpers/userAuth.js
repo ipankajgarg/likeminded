@@ -12,7 +12,7 @@ const userAuth = {
         return user;
       })
       .catch(function(err) {
-        console.log(err)
+        console.log(err);
         return new Error("some internal server error please try later!");
       });
   },
@@ -21,14 +21,22 @@ const userAuth = {
     return User.findOne({ mobileNumber })
       .then(function(user) {
         if (user) {
-          return new Error("user already exist with this number" );
+          return new Error("user already exist with this number");
         }
-       // return new Error("some internal server error please try later!");
+        // return new Error("some internal server error please try later!");
         return { message: "pankaj here you go" };
       })
       .catch(function(err) {
         return new Error("some internal server error please try later!");
       });
+  },
+
+  signUp: function({ email, mobileNumber, location }) {
+    const newUser = new User({ email, mobileNumber, location });
+
+    return newUser.save().then(function(user) {
+      return { message: "its done" };
+    });
   }
 };
 

@@ -1,8 +1,11 @@
 import React, {Component, Fragment} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, Platform} from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 //import Geocoder from 'react-native-geocoding';
 import Geocoder from 'react-native-geocoder';
+import Permissions from 'react-native-permissions';
+import {signUp} from '../../mutations/userAuthMutation';
+import {graphql} from 'react-apollo';
 
 var NY = {
   lat: 28.523661956226178,
@@ -11,37 +14,62 @@ var NY = {
 
 class Location extends Component {
   componentDidMount() {
-    // Instead of navigator.geolocation, just use Geolocation.
-    if (this.hasLocationPermission) {
-      Geolocation.getCurrentPosition(
-        position => {
-          console.log('position', position);
+    console.log('mounting');
 
-          const {latitude: lat, longitude: lng} = position.coords;
-
-          Geocoder.geocodePosition({lat, lng})
-            .then(res => {
-              console.log('res', res);
-            })
-            .catch(err => console.log(err));
-        },
-        error => {
-          // See error code charts below.
-          console.log(error.code, error.message);
-        },
-        // { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-      );
-      // .then((data)=>console.log("position",data)).catch((err)=>console.log("err",err))
-    }
+    Permissions.request('location')
+      .then(response => {
+        console.log(response);
+        if (response == 'authorized') {
+          this.fetchLocation();
+        } else {
+          Permissions.openSettings();
+        }
+      })
+      .catch(err => console.log('err', err));
   }
 
-  hasLocationPermission = async () => {
-    if (
-      Platform.OS === 'ios' ||
-      (Platform.OS === 'android' && Platform.Version < 23)
-    ) {
-      return true;
-    }
+  signUpUser = location => {
+    this.props
+      .mutate({
+        variables: {email: 'hello@gmail.com', mobileNumber: 1234343, location},
+      })
+      .then(res => {
+        console.log('done with query', res);
+      })
+      .catch(err => {
+        console.log('err with query', err);
+      });
+  };
+
+  fetchLocation = () => {
+    const {navigation} = this.props;
+
+    Geolocation.getCurrentPosition(
+      position => {
+        console.log('position', position);
+
+        const {latitude: lat, longitude: lng} = position.coords;
+
+        Geocoder.geocodePosition({lat, lng})
+          .then(res => {
+            console.log('res', res);
+            this.signUpUser(res[0]);
+
+            // navigation.navigate("Home")
+          })
+          .catch(err => console.log(err));
+      },
+      error => {
+        // See error code charts below.
+        console.log(error.code, error.message);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 10000,
+        showLocationDialog: true,
+      },
+    );
   };
 
   render() {
@@ -62,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Location;
+export default graphql(signUp)(Location);

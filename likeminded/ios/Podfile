@@ -38,6 +38,8 @@ target 'likeminded' do
 
   pod 'react-native-geocoder', :path => '../node_modules/react-native-geocoder'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'likemindedTests' do
     inherit! :search_paths
     # Pods for testing

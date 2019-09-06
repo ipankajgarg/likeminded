@@ -6,9 +6,9 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
-  GraphQLNonNull
+  GraphQLNonNull,GraphQLInputObjectType
 } = graphql;
-const GraphQLLong = require('graphql-type-long')
+const GraphQLLong = require("graphql-type-long");
 
 const CircleType = new GraphQLObjectType({
   name: "circle",
@@ -32,6 +32,26 @@ const DemoType = new GraphQLObjectType({
         return { name };
       }
     }
+  }
+});
+
+const PositionType = new GraphQLInputObjectType({
+  name: "position",
+  fields: {
+    lat: { type: GraphQLLong },
+    lng: { type: GraphQLLong }
+  }
+});
+
+const LocationType = new GraphQLInputObjectType({
+  name: "location",
+  fields: {
+    country: { type: GraphQLString },
+    countryCode: { type: GraphQLString },
+    formattedAddress: { type: GraphQLString },
+    locality: { type: GraphQLString },
+    streetName: { type: GraphQLString },
+    position: { type: PositionType }
   }
 });
 
@@ -85,6 +105,20 @@ const Mutation = new GraphQLObjectType({
       },
       resolve(parentValue, { mobileNumber }, req) {
         return userAuth.isMobileNumberExist(mobileNumber);
+      }
+    },
+    signUp: {
+      type: Success,
+      args: {
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        mobileNumber: { type: new GraphQLNonNull(GraphQLLong) },
+        location: { type: LocationType }
+      },
+      resolve(parentValue, { email, mobileNumber, location }, req) {
+
+console.log("signed up")
+
+        return userAuth.signUp({ email, mobileNumber, location });
       }
     }
   }
