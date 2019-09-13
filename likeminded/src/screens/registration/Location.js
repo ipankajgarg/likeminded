@@ -28,10 +28,10 @@ class Location extends Component {
       .catch(err => console.log('err', err));
   }
 
-  signUpUser = location => {
+  signUpUser = ({country,countryCode,formattedAddress,locality,streetName,position} )=> {
     this.props
       .mutate({
-        variables: {email: 'hello@gmail.com', mobileNumber: 1234343, location},
+        variables: {email: 'start@gmail.com', mobileNumber: 1233, location:{country,countryCode,formattedAddress,locality,streetName,position}},
       })
       .then(res => {
         console.log('done with query', res);

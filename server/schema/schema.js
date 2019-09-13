@@ -55,6 +55,10 @@ const LocationType = new GraphQLInputObjectType({
   }
 });
 
+
+
+
+
 const Success = new GraphQLObjectType({
   name: "UserToken",
   fields: {
@@ -116,7 +120,7 @@ const Mutation = new GraphQLObjectType({
       },
       resolve(parentValue, { email, mobileNumber, location }, req) {
 
-console.log("signed up")
+console.log("signed up",email,mobileNumber,location)
 
         return userAuth.signUp({ email, mobileNumber, location });
       }

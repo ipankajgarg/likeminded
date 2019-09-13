@@ -17,28 +17,9 @@ export const isMobileNumberExistMutation = gql`
 `;
 
 export const signUp = gql`
-
-type PositionType {
-  lat:Long,
-  lng:Long
-}
-
-type LocationType {
-  country: String
-  countryCode: String,
-  formattedAddress: String,
-  locality: String
-  streetName: String,
-  position: PositionType
-
-}
-
-mutation SignUp($mobileNumber:Long!,$email:String!,$location:LocationType){
-signUp(mobileNumber:$mobileNumber,email:$email,location :$location){
-  message
-}
-
-
-}
-
+  mutation SignUp($mobileNumber: Long!, $email: String!, $location: location) {
+    signUp(mobileNumber: $mobileNumber, email: $email, location: $location) {
+      message
+    }
+  }
 `;
