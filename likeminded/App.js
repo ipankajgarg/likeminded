@@ -25,7 +25,7 @@ const MainNavigator = createStackNavigator(
 
     Home,
   },
-  {initialRouteName: 'Location'},
+  {initialRouteName: 'SignIn'},
 );
 
 const App = createAppContainer(MainNavigator);

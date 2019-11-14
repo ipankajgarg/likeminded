@@ -5,16 +5,13 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from 'react-native-google-signin';
-import {graphql,withApollo} from 'react-apollo';
+import {graphql, withApollo} from 'react-apollo';
 import {isSignedInMutation} from '../../mutations/userAuthMutation';
 //import demo from '../queries/signInQuery';
 //import {SocialIcon} from 'react-native-elements';
 import SnackBar from 'react-native-snackbar-component';
 
-
 class SignIn extends Component {
- 
-
   state = {userInfo: null, isSigninInProgress: false, visible: false};
 
   componentDidMount() {
@@ -45,9 +42,8 @@ class SignIn extends Component {
   };
 
   signIn = async () => {
+    const {client} = this.props;
 
-    const {client} = this.props
-  
     this.setState({isSigninInProgress: true});
     try {
       await GoogleSignin.hasPlayServices();
@@ -57,22 +53,18 @@ class SignIn extends Component {
       const response = await this.props.mutate({
         variables: {email, name},
       });
-
+      console.log(response);
       if (response.signIn) {
         alert('hurray you are good to go');
       } else {
-
-
-client.writeData({data:{signInDetails:{email,name}}})
+        client.writeData({data: {signInDetails: {email, name}}});
 
         alert('sorry i am working on it');
       }
 
       this.setState({userInfo, isSigninInProgress: false});
-      
 
-
-      this.props.navigation.navigate("MobileNumber")
+      this.props.navigation.navigate('MobileNumber');
     } catch (error) {
       this.setState({visible: true});
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -92,7 +84,7 @@ client.writeData({data:{signInDetails:{email,name}}})
   };
 
   render() {
-    console.log(this.props, 'state', this.state,this.props.client);
+    console.log(this.props, 'state', this.state, this.props.client);
     const {visible, isSigninInProgress} = this.state;
 
     return (
