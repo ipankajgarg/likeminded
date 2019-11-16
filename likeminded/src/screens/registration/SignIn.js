@@ -66,6 +66,7 @@ class SignIn extends Component {
 
       this.props.navigation.navigate('MobileNumber');
     } catch (error) {
+      console.log(error);
       this.setState({visible: true});
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow

@@ -16,7 +16,7 @@ class Location extends Component {
   componentDidMount() {
     console.log('mounting');
 
-    Permissions.request('location')
+    Permissions.request('location', {type: 'whenInUse'})
       .then(response => {
         console.log(response);
         if (response == 'authorized') {
@@ -28,10 +28,28 @@ class Location extends Component {
       .catch(err => console.log('err', err));
   }
 
-  signUpUser = ({country,countryCode,formattedAddress,locality,streetName,position} )=> {
+  signUpUser = ({
+    country,
+    countryCode,
+    formattedAddress,
+    locality,
+    streetName,
+    position,
+  }) => {
     this.props
       .mutate({
-        variables: {email: 'start@gmail.com', mobileNumber: 1233, location:{country,countryCode,formattedAddress,locality,streetName,position}},
+        variables: {
+          email: 'start@gmail.com',
+          mobileNumber: 1233,
+          location: {
+            country,
+            countryCode,
+            formattedAddress,
+            locality,
+            streetName,
+            position,
+          },
+        },
       })
       .then(res => {
         console.log('done with query', res);
@@ -52,7 +70,7 @@ class Location extends Component {
 
         Geocoder.geocodePosition({lat, lng})
           .then(res => {
-            console.log('res', res);
+            console.log('res', res[0]);
             this.signUpUser(res[0]);
 
             // navigation.navigate("Home")

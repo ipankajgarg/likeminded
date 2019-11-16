@@ -10,7 +10,7 @@ import App from './App';
 import {name as appName} from './app.json';
 
 const client = new ApolloClient({
-  uri: 'http://192.168.1.4:4000/graphql',
+  uri: 'http://192.168.1.8:4000/graphql',
 });
 
 const Root = () => {

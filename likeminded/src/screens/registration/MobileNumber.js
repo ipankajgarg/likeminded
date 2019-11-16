@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
-import {graphql,withApollo} from 'react-apollo';
+import {graphql, withApollo} from 'react-apollo';
 import {isMobileNumberExistMutation} from '../../mutations/userAuthMutation';
 import SnackBar from 'react-native-snackbar-component';
 
@@ -17,20 +17,20 @@ class MobileNumber extends Component {
   onSubmit = async () => {
     console.log('submit');
     const {input} = this.state;
-    const {mutate, navigation,client} = this.props;
+    const {mutate, navigation, client} = this.props;
     console.log('input', input, typeof input);
 
     try {
       const repsonse = await mutate({
         variables: {mobileNumber: Number(input)},
       });
-client.writeData({data:{mobileNumber:input}})
+      client.writeData({data: {mobileNumber: input}});
       navigation.navigate('Location');
       console.log('response', repsonse);
     } catch (err) {
       this.setState({visible: true, errMessage: err.message});
       setTimeout(function() {
-          console.log("print",this)
+        console.log('print', this);
         this.setState({visible: false});
       }, 2000);
       console.log('err', err, err.message);
@@ -47,7 +47,7 @@ client.writeData({data:{mobileNumber:input}})
     } = styles;
     const {input, errMessage, visible} = this.state;
 
-    console.log('rendering',this.props);
+    console.log('rendering', this.props);
 
     return (
       <View style={container}>
