@@ -51,7 +51,7 @@ class MobileNumber extends Component {
 
     return (
       <View style={container}>
-        <Text style={headingStyle}>What's your mobile number</Text>
+        <Text style={headingStyle}>What's your mobile number?</Text>
 
         <TextInput
           autoFocus

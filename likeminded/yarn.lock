@@ -984,6 +984,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/geolocation/-/geolocation-1.4.2.tgz#7228c6d37c2f55017af9c49c2b9ad586d9bcb9f8"
   integrity sha512-9x9dHDeUXnh2larA4zTT3y/tXPmRnysh5o9fsNbGcnUKPj1BUCIHnGGPxEIDnwP1DNIMP2DN9DmuMHImtTbX6A==
 
+"@react-native-community/slider@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-2.0.5.tgz#2efd009ff083e4321fc9f0ebf380a3d3f5d8121f"
+  integrity sha512-cvi3ZexD2nAWesoTVPHH1AlaR8ccOIhVfoDV79JeCSKIq1NSVXDgynclYlcNNTbI5nls0FstZjGj1jJVcSsB1Q==
+
 "@react-navigation/core@^3.5.0":
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.5.0.tgz#73d1a12448e2bd71855e0080b95a7f51ede0cd9e"
@@ -5646,6 +5651,11 @@ react-native-safe-area-view@^0.14.1:
   integrity sha512-tOxHGQUN83MTmQB4ghoQkibqOdGiX4JQEmeyEv96MKWO/x8T2PJv84ECUos9hD3blPRQwVwSpAid1PPPhrVEaw==
   dependencies:
     debounce "^1.2.0"
+
+react-native-slide@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-slide/-/react-native-slide-0.2.2.tgz#92d21d0150f1a316a0eee569be9e274d17f36eb1"
+  integrity sha1-ktIdAVDxoxag7uVpvp4nTRfzbrE=
 
 react-native-snackbar-component@^1.1.0:
   version "1.1.0"

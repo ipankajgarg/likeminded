@@ -10,6 +10,7 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.0.1",
     "@react-native-community/async-storage": "^1.6.1",
+    "@react-native-community/slider": "^2.0.5",
     "apollo-boost": "^0.4.4",
     "graphql": "^14.5.4",
     "react": "16.8.6",
@@ -24,6 +25,7 @@
     "react-native-google-signin": "^2.0.0",
     "react-native-permissions": "^1.2.0",
     "react-native-screens": "^1.0.0-alpha.23",
+    "react-native-slide": "^0.2.2",
     "react-native-snackbar-component": "^1.1.0",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.0.0",

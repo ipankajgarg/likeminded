@@ -1,11 +1,11 @@
 import React, {Fragment, Component} from 'react';
-
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 import SignIn from './src/screens/registration/SignIn';
 import MobileNumber from './src/screens/registration/MobileNumber';
 import Location from './src/screens/registration/Location';
 import Home from './src/screens/Home';
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import InterestedIn from './src/screens/registration/InterestedIn';
 
 const MainNavigator = createStackNavigator(
   {
@@ -24,8 +24,12 @@ const MainNavigator = createStackNavigator(
     Location: {screen: Location, navigationOptions: () => ({header: null})},
 
     Home,
+    InterestedIn: {
+      screen: InterestedIn,
+      navigationOptions: () => ({headerTitle: 'Interested In'}),
+    },
   },
-  {initialRouteName: 'SignIn'},
+  {initialRouteName: 'InterestedIn'},
 );
 
 const App = createAppContainer(MainNavigator);
