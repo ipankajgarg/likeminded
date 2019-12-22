@@ -6,7 +6,8 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
-  GraphQLNonNull,GraphQLInputObjectType
+  GraphQLNonNull,
+  GraphQLInputObjectType
 } = graphql;
 const GraphQLLong = require("graphql-type-long");
 
@@ -55,14 +56,11 @@ const LocationType = new GraphQLInputObjectType({
   }
 });
 
-
-
-
-
 const Success = new GraphQLObjectType({
   name: "UserToken",
   fields: {
-    message: { type: GraphQLString }
+    message: { type: GraphQLString },
+    statusCode: { type: GraphQLInt }
   }
 });
 
@@ -115,14 +113,14 @@ const Mutation = new GraphQLObjectType({
       type: Success,
       args: {
         email: { type: new GraphQLNonNull(GraphQLString) },
-        mobileNumber: { type: new GraphQLNonNull(GraphQLLong) },
-        location: { type: LocationType }
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        mobileNumber: { type: new GraphQLNonNull(GraphQLLong) }
+        // location: { type: LocationType }
       },
-      resolve(parentValue, { email, mobileNumber, location }, req) {
+      resolve(parentValue, { email, mobileNumber, name }, req) {
+        console.log("signed up", email, mobileNumber, name);
 
-console.log("signed up",email,mobileNumber,location)
-
-        return userAuth.signUp({ email, mobileNumber, location });
+        return userAuth.signUp({ email, mobileNumber, name });
       }
     }
   }
