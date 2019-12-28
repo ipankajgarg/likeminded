@@ -7,6 +7,6 @@ const userLike = new Schema({
   _likeId: Schema.Types.ObjectId
 });
 
-const model = mongoose.model("userLikes", userLike);
+const model = mongoose.model("likes", userLike);
 
 module.exports = model;

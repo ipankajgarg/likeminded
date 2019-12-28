@@ -1,13 +1,16 @@
 //const graphql = require('graphql')
 const graphql = require("graphql");
 const userAuth = require("../helpers/userAuth");
+const userProfile = require("../helpers/userProfile");
 const {
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
   GraphQLNonNull,
-  GraphQLInputObjectType
+  GraphQLInputObjectType,
+  GraphQLID,
+  GraphQLList
 } = graphql;
 const GraphQLLong = require("graphql-type-long");
 
@@ -56,6 +59,36 @@ const LocationType = new GraphQLInputObjectType({
   }
 });
 
+const Type = new GraphQLObjectType({
+  name: "userTpe",
+  fields: {
+    id: { type: GraphQLID },
+    about: { type: GraphQLString },
+    coverImage: { type: GraphQLString },
+    profileImage: { type: GraphQLString },
+    name: { type: GraphQLString },
+    email: { type: GraphQLString },
+    gender: { type: GraphQLString },
+    mobileNumber: { type: GraphQLLong }
+    // crushes: { type: new GraphQLList(UserType) }
+  }
+});
+
+const UserType = new GraphQLObjectType({
+  name: "userType",
+  fields: {
+    id: { type: GraphQLID },
+    about: { type: GraphQLString },
+    coverImage: { type: GraphQLString },
+    profileImage: { type: GraphQLString },
+    name: { type: GraphQLString },
+    email: { type: GraphQLString },
+    gender: { type: GraphQLString },
+    mobileNumber: { type: GraphQLLong },
+    crushes: { type: new GraphQLList(Type) }
+  }
+});
+
 const Success = new GraphQLObjectType({
   name: "UserToken",
   fields: {
@@ -82,6 +115,15 @@ const RootQuery = new GraphQLObjectType({
             resolve({ name: "graphql" });
           }, 2000);
         });
+      }
+    },
+    myProfile: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLID }
+      },
+      resolve(parentValue, { id }, req) {
+        return userProfile.myProfile(id);
       }
     }
   }
@@ -121,6 +163,28 @@ const Mutation = new GraphQLObjectType({
         console.log("signed up", email, mobileNumber, name);
 
         return userAuth.signUp({ email, mobileNumber, name });
+      }
+    },
+    editProfile: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        coverImage: { type: GraphQLString },
+        profileImage: { type: GraphQLString },
+        about: { type: GraphQLString }
+      },
+      resolve(parentValue, args, req) {
+        return userProfile.editProfile(args);
+      }
+    },
+    addCrush: {
+      type: Success,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        crushId: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parentValue, { id, crushId }) {
+        return userProfile.addCrush(id, crushId);
       }
     }
   }

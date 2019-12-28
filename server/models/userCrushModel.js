@@ -7,6 +7,6 @@ const userCrush = new Schema({
   _crushId: Schema.Types.ObjectId
 });
 
-const model = mongoose.model("crushs", userCrush);
+const model = mongoose.model("crushes", userCrush);
 
 module.exports = model;

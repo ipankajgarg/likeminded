@@ -1,11 +1,6 @@
 const User = require("../models/userAuthModel");
 const { errorName } = require("../constants/errors");
 
-class CustomError extends Error {
-  code = 500;
-  message = this.message || "This content is not available in your country";
-}
-
 const userAuth = {
   isSignedIn: function(email, name) {
     return User.findOne({ email })
@@ -44,6 +39,21 @@ const userAuth = {
     return newUser.save().then(function(user) {
       return { statusCode: 200, message: "its done" };
     });
+  },
+
+  editProfile: function({ coverImage, profileImage, id, about }) {
+    return User.findByIdAndUpdate(
+      { _id: id },
+      { coverImage, profileImage, about },
+      { new: true },
+      function(err, doc) {
+        if (err) {
+          return new Error(errorName.SERVER_ERROR);
+        }
+        console.log(doc);
+        return doc;
+      }
+    );
   }
 };
 
