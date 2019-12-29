@@ -39,21 +39,6 @@ const userAuth = {
     return newUser.save().then(function(user) {
       return { statusCode: 200, message: "its done" };
     });
-  },
-
-  editProfile: function({ coverImage, profileImage, id, about }) {
-    return User.findByIdAndUpdate(
-      { _id: id },
-      { coverImage, profileImage, about },
-      { new: true },
-      function(err, doc) {
-        if (err) {
-          return new Error(errorName.SERVER_ERROR);
-        }
-        console.log(doc);
-        return doc;
-      }
-    );
   }
 };
 
