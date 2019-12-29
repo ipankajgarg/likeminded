@@ -2,6 +2,9 @@
 const graphql = require("graphql");
 const userAuth = require("../helpers/userAuth");
 const userProfile = require("../helpers/userProfile");
+const userCrush = require("../helpers/userCrush");
+const userLike = require("../helpers/userLike");
+
 const {
   GraphQLSchema,
   GraphQLObjectType,
@@ -59,24 +62,9 @@ const LocationType = new GraphQLInputObjectType({
   }
 });
 
-const Type = new GraphQLObjectType({
-  name: "userTpe",
-  fields: {
-    id: { type: GraphQLID },
-    about: { type: GraphQLString },
-    coverImage: { type: GraphQLString },
-    profileImage: { type: GraphQLString },
-    name: { type: GraphQLString },
-    email: { type: GraphQLString },
-    gender: { type: GraphQLString },
-    mobileNumber: { type: GraphQLLong }
-    // crushes: { type: new GraphQLList(UserType) }
-  }
-});
-
-const UserType = new GraphQLObjectType({
+var UserType = new GraphQLObjectType({
   name: "userType",
-  fields: {
+  fields: () => ({
     id: { type: GraphQLID },
     about: { type: GraphQLString },
     coverImage: { type: GraphQLString },
@@ -85,8 +73,20 @@ const UserType = new GraphQLObjectType({
     email: { type: GraphQLString },
     gender: { type: GraphQLString },
     mobileNumber: { type: GraphQLLong },
-    crushes: { type: new GraphQLList(Type) }
-  }
+    crushes: {
+      type: new GraphQLList(UserType),
+      resolve(parentValue) {
+        console.log("parentValue", parentValue);
+        return userCrush.getProfiles(parentValue.id);
+      }
+    },
+    likes: {
+      type: new GraphQLList(UserType),
+      resolve(parentValue) {
+        return userLike.getProfiles(parentValue.id);
+      }
+    }
+  })
 });
 
 const Success = new GraphQLObjectType({
@@ -117,13 +117,13 @@ const RootQuery = new GraphQLObjectType({
         });
       }
     },
-    myProfile: {
+    profile: {
       type: UserType,
       args: {
         id: { type: GraphQLID }
       },
       resolve(parentValue, { id }, req) {
-        return userProfile.myProfile(id);
+        return userProfile.getProfile(id);
       }
     }
   }
@@ -184,7 +184,7 @@ const Mutation = new GraphQLObjectType({
         crushId: { type: new GraphQLNonNull(GraphQLID) }
       },
       resolve(parentValue, { id, crushId }) {
-        return userProfile.addCrush(id, crushId);
+        return userCrush.add(id, crushId);
       }
     }
   }
