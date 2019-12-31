@@ -55,6 +55,11 @@ const userProfile = {
     //   .catch(err => console.log(err));
 
     // return promise;
+  },
+  getPaginatedProfiles: function(pageNo, pageSize) {
+    return User.find()
+      .skip(pageSize * (pageNo - 1))
+      .limit(pageSize);
   }
 };
 

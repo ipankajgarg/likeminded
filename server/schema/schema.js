@@ -132,6 +132,16 @@ const RootQuery = new GraphQLObjectType({
       resolve() {
         return userProfile.mostLiked();
       }
+    },
+    getPaginatedProfiles: {
+      type: new GraphQLList(UserType),
+      args: {
+        pageSize: { type: GraphQLInt },
+        pageNo: { type: GraphQLInt }
+      },
+      resolve(parentValue, { pageNo, pageSize }) {
+        return userProfile.getPaginatedProfiles(pageNo, pageSize);
+      }
     }
   }
 });
