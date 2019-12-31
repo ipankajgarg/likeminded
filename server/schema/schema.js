@@ -72,6 +72,7 @@ var UserType = new GraphQLObjectType({
     name: { type: GraphQLString },
     email: { type: GraphQLString },
     gender: { type: GraphQLString },
+    count: { type: GraphQLInt },
     mobileNumber: { type: GraphQLLong },
     crushes: {
       type: new GraphQLList(UserType),
@@ -124,6 +125,12 @@ const RootQuery = new GraphQLObjectType({
       },
       resolve(parentValue, { id }, req) {
         return userProfile.getProfile(id);
+      }
+    },
+    mostLiked: {
+      type: UserType,
+      resolve() {
+        return userProfile.mostLiked();
       }
     }
   }

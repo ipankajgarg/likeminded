@@ -24,7 +24,8 @@ const user = new Schema({
   location: { type: locationSchema },
   profileImage: { type: String },
   coverImage: { type: String },
-  about: { type: String }
+  about: { type: String },
+  count: { default: 0, type: Number }
 });
 
 // TODO : name and gender should be required

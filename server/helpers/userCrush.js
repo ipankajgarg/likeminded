@@ -5,7 +5,14 @@ const userCrush = {
   add: function(_userId, _crushId) {
     return new Crush({ _userId, _crushId }).save().then(function(user) {
       console.log(user);
-      return { message: "created", statusCode: 200 };
+
+      return User.findByIdAndUpdate(
+        _crushId,
+        { $inc: { count: 1 } },
+        { new: true }
+      ).then(function(doc) {
+        return { message: "created", statusCode: 200 };
+      });
     });
   },
 
