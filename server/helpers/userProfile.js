@@ -17,6 +17,17 @@ const userProfile = {
     );
   },
 
+  mostLiked: function() {
+    return User.find()
+      .sort({ count: -1 })
+      .then(function(doc) {
+        // console.log("inside");
+        // console.log("sort", doc.sort);
+        // console.log("after");
+        return doc[0];
+      });
+  },
+
   getProfile: function(id) {
     return User.findById({ _id: id });
 
