@@ -60,6 +60,9 @@ const userProfile = {
     return User.find()
       .skip(pageSize * (pageNo - 1))
       .limit(pageSize);
+  },
+  getSearchedProfiles: function(name) {
+    return User.find({ name: { $regex: `.*${name}*.` } });
   }
 };
 
