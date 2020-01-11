@@ -23,13 +23,13 @@ const MainNavigator = createStackNavigator(
     },
     Location: {screen: Location, navigationOptions: () => ({header: null})},
 
-    Home,
+    Home: {screen: Home, navigationOptions: () => ({header: null})},
     InterestedIn: {
       screen: InterestedIn,
       navigationOptions: () => ({headerTitle: 'Interested In'}),
     },
   },
-  {initialRouteName: 'InterestedIn'},
+  {initialRouteName: 'Home'},
 );
 
 const App = createAppContainer(MainNavigator);

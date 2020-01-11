@@ -22,7 +22,7 @@
     "react-native-geocoding": "^0.3.0",
     "react-native-geolocation-service": "^3.1.0",
     "react-native-gesture-handler": "^1.4.1",
-    "react-native-google-signin": "^2.0.0",
+    "react-native-image-crop-picker": "^0.25.0",
     "react-native-permissions": "^1.2.0",
     "react-native-screens": "^1.0.0-alpha.23",
     "react-native-slide": "^0.2.2",

@@ -1,29 +1,28 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, Platform} from 'react-native';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from 'react-native-google-signin';
+// import {
+//   GoogleSignin,
+//   GoogleSigninButton,
+//   statusCodes,
+// } from '@react-native-community/google-signin';
 import {graphql, withApollo} from 'react-apollo';
 import {isSignedInMutation} from '../../mutations/userAuthMutation';
 //import demo from '../queries/signInQuery';
 //import {SocialIcon} from 'react-native-elements';
-import SnackBar from 'react-native-snackbar-component';
+//import SnackBar from 'react-native-snackbar-component';
 
 class SignIn extends Component {
   state = {userInfo: null, isSigninInProgress: false, visible: false};
 
   componentDidMount() {
-    console.log('calling');
     //this.revokeAccess()
     // this.getCurrentUser();
-    GoogleSignin.configure({
-      webClientId:
-        '1014868015125-pupqkofkoikrrg8f3beot8mmibcul5bi.apps.googleusercontent.com',
-      iosClientId:
-        '1014868015125-rfgkath1lvee3vlod3qm6s1m446u5iqh.apps.googleusercontent.com',
-    });
+    // GoogleSignin.configure({
+    //   webClientId:
+    //     '1014868015125-pupqkofkoikrrg8f3beot8mmibcul5bi.apps.googleusercontent.com',
+    //   iosClientId:
+    //     '1014868015125-rfgkath1lvee3vlod3qm6s1m446u5iqh.apps.googleusercontent.com',
+    // });
   }
 
   getCurrentUser = async () => {
@@ -42,9 +41,10 @@ class SignIn extends Component {
   };
 
   signIn = async () => {
+    console.log('called');
     const {client} = this.props;
 
-    this.setState({isSigninInProgress: true});
+    //this.setState({isSigninInProgress: true});
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
@@ -62,11 +62,11 @@ class SignIn extends Component {
         alert('sorry i am working on it');
       }
 
-      this.setState({userInfo, isSigninInProgress: false});
+      //this.setState({userInfo, isSigninInProgress: false});
 
       this.props.navigation.navigate('MobileNumber');
     } catch (error) {
-      console.log(error);
+      console.log(error, error.error, error.message, error.statusCode);
       this.setState({visible: true});
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -80,12 +80,13 @@ class SignIn extends Component {
       } else {
         // some other error happened
         console.log('err', error);
+        alert(error.message);
       }
     }
   };
 
   render() {
-    console.log(this.props, 'state', this.state, this.props.client);
+    // console.log(this.props, 'state', this.state, this.props.client);
     const {visible, isSigninInProgress} = this.state;
 
     return (
@@ -94,14 +95,14 @@ class SignIn extends Component {
           <Text style={styles.brandText}>likeminded</Text>
         </View>
         <View style={{justifyContent: 'center', flex: 1}}>
-          <GoogleSigninButton
+          {/* <GoogleSigninButton
             style={{width: 250, height: 55}}
             size={GoogleSigninButton.Size.Wide}
             onPress={this.signIn}
             disabled={isSigninInProgress}
-          />
+          /> */}
         </View>
-        <SnackBar
+        {/* <SnackBar
           visible={visible}
           textMessage="some error please try later"
           backgroundColor="#ff0000"
@@ -109,7 +110,7 @@ class SignIn extends Component {
           actionHandler={() => {
             console.log('snackbar button clicked!');
           }}
-        />
+        /> */}
       </View>
     );
   }

@@ -3,6 +3,9 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 target 'likeminded' do
   # Pods for likeminded
+
+  
+
   pod 'React', :path => '../node_modules/react-native/'
   pod 'React-Core', :path => '../node_modules/react-native/React'
   pod 'React-DevSupport', :path => '../node_modules/react-native/React'
@@ -27,7 +30,7 @@ target 'likeminded' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'RNGoogleSignin', :path => '../node_modules/react-native-google-signin'
+  
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
@@ -39,6 +42,9 @@ target 'likeminded' do
   pod 'react-native-geocoder', :path => '../node_modules/react-native-geocoder'
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+   pod 'QBImagePickerController', :path => '../node_modules/react-native-image-crop-picker/ios/QBImagePicker/QBImagePickerController.podspec'
+
+
 
   target 'likemindedTests' do
     inherit! :search_paths
