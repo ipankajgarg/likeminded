@@ -6,6 +6,7 @@ import MobileNumber from './src/screens/registration/MobileNumber';
 import Location from './src/screens/registration/Location';
 import Home from './src/screens/Home';
 import InterestedIn from './src/screens/registration/InterestedIn';
+import EditProfile from './src/screens/EditProfile';
 
 const MainNavigator = createStackNavigator(
   {
@@ -28,8 +29,12 @@ const MainNavigator = createStackNavigator(
       screen: InterestedIn,
       navigationOptions: () => ({headerTitle: 'Interested In'}),
     },
+    EditProfile: {
+      screen: EditProfile,
+      navigationOptions: () => ({header: null}),
+    },
   },
-  {initialRouteName: 'Home'},
+  {initialRouteName: 'EditProfile'},
 );
 
 const App = createAppContainer(MainNavigator);
