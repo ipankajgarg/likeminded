@@ -7,6 +7,7 @@ import Location from './src/screens/registration/Location';
 import Home from './src/screens/Home';
 import InterestedIn from './src/screens/registration/InterestedIn';
 import EditProfile from './src/screens/EditProfile';
+import EditAbout from './src/screens/EditAbout';
 
 const MainNavigator = createStackNavigator(
   {
@@ -33,8 +34,11 @@ const MainNavigator = createStackNavigator(
       screen: EditProfile,
       navigationOptions: () => ({header: null}),
     },
+    EditAbout: {
+      screen: EditAbout,
+    },
   },
-  {initialRouteName: 'EditProfile'},
+  {initialRouteName: 'EditAbout'},
 );
 
 const App = createAppContainer(MainNavigator);
