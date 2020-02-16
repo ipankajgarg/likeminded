@@ -212,6 +212,36 @@ const Mutation = new GraphQLObjectType({
       resolve(parentValue, { id, crushId }) {
         return userCrush.add(id, crushId);
       }
+    },
+    updateCoverImage: {
+      type: Success,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        image: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parentValue, { id, image }) {
+        return userProfile.updateCoverImage(id, image);
+      }
+    },
+    updateProfileImage: {
+      type: Success,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        image: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parentValue, { id, image }) {
+        return userProfile.updateProfileImage(id, image);
+      }
+    },
+    updateAboutMe: {
+      type: Success,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        about: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parentValue, { id, about }) {
+        return userProfile.updateAboutMe(id, about);
+      }
     }
   }
 });

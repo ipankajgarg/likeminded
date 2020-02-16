@@ -1,5 +1,5 @@
 const User = require("../models/userAuthModel");
-const Crush = require("../models/userCrushModel");
+const { errorName } = require("../constants/errors");
 
 const userProfile = {
   editProfile: function({ coverImage, profileImage, id, about }) {
@@ -63,6 +63,34 @@ const userProfile = {
   },
   getSearchedProfiles: function(name) {
     return User.find({ name: { $regex: `.*${name}*.` } });
+  },
+
+  updateCoverImage: function(id, coverImage) {
+    return User.findOneAndUpdate({ _id: id }, { coverImage })
+      .then(function() {
+        return { message: "updated cover image", statusCode: 200 };
+      })
+      .catch(function(err) {
+        return new Error(errorName.SERVER_ERROR);
+      });
+  },
+  updateProfileImage: function(id, profileImage) {
+    return User.findOneAndUpdate({ _id: id }, { profileImage })
+      .then(function() {
+        return { message: "updated profile image", statusCode: 200 };
+      })
+      .catch(function(err) {
+        return new Error(errorName.SERVER_ERROR);
+      });
+  },
+  updateAboutMe: function(id, about) {
+    return User.findOneAndUpdate({ _id: id }, { about })
+      .then(function() {
+        return { message: "updated about me", statusCode: 200 };
+      })
+      .catch(function(err) {
+        return new Error(errorName.SERVER_ERROR);
+      });
   }
 };
 
