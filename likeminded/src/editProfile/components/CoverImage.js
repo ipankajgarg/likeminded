@@ -8,6 +8,8 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import {graphql, withApollo} from 'react-apollo';
+import {updateCoverImage} from '../mutations/editProfileMutations';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -16,6 +18,7 @@ class CoverImage extends Component {
   state = {imageUri: ''};
 
   onImage = () => {
+    const {mutate} = this.props;
     console.log('on image clicked');
     ImagePicker.openPicker({
       width: deviceWidth,
@@ -24,30 +27,40 @@ class CoverImage extends Component {
       includeBase64: true,
     })
       .then(image => {
-        console.log(image);
-        this.setState({imageUri: image['data']});
+        mutate({
+          variables: {image: image['data'], id: '5d6678e761a5793aacb42c0c'},
+        })
+          .then(response => {
+            this.setState({imageUri: image['data']});
+          })
+          .catch(err => console.log('error', err));
       })
       .catch(err => console.log('error', err));
   };
 
   render() {
-    // const {uri} = this.props;
-    const {imageUri} = this.state;
-    console.log(imageUri);
+    console.log(this.props);
+    const {uri} = this.props;
+    let {imageUri} = this.state;
+    imageUri = imageUri ? imageUri : uri;
+
     return (
       <View>
         {imageUri ? (
-          <Image
-            style={{
-              width: deviceWidth,
-              height: deviceHeight / 3,
-              borderBottomLeftRadius: 50,
-              borderBottomRightRadius: 50,
-            }}
-            source={{
-              uri: `data:image/jpeg;base64,${imageUri}`,
-            }}
-          />
+          <View>
+            <Image
+              style={{
+                width: deviceWidth,
+                height: deviceHeight / 3,
+                borderBottomLeftRadius: 50,
+                borderBottomRightRadius: 50,
+                // background: 'rgba(0, 0, 0, 0.5)',
+              }}
+              source={{
+                uri: `data:image/jpeg;base64,${imageUri}`,
+              }}
+            />
+          </View>
         ) : (
           <TouchableWithoutFeedback onPress={this.onImage}>
             <View
@@ -103,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CoverImage;
+export default graphql(updateCoverImage)(CoverImage);

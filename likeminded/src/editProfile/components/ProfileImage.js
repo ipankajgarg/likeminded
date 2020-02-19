@@ -7,6 +7,8 @@ import {
   Dimensions,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import {graphql} from 'react-apollo';
+import {updateProfileImage} from '../mutations/editProfileMutations';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -24,13 +26,19 @@ class ProfileImage extends Component {
     })
       .then(image => {
         console.log(image);
+        this.props.mutate({
+          variables: {image: image['data'], id: '5d6678e761a5793aacb42c0c'},
+        });
         this.setState({imageUri: image['data']});
       })
       .catch(err => console.log('error', err));
   };
 
   render() {
-    const {imageUri} = this.state;
+    const {uri} = this.props;
+    let {imageUri} = this.state;
+
+    imageUri = imageUri ? imageUri : uri;
 
     return (
       <View>
@@ -47,7 +55,12 @@ class ProfileImage extends Component {
               // transform: 'tr',
             }}>
             <Image
-              style={{height: 120, width: 120, borderRadius: 60}}
+              style={{
+                height: 120,
+                width: 120,
+                borderRadius: 60,
+                // background: 'rgba(0, 0, 0, 0.9)',
+              }}
               source={{
                 uri: imageUri
                   ? `data:image/jpeg;base64,${imageUri}`
@@ -61,4 +74,4 @@ class ProfileImage extends Component {
   }
 }
 
-export default ProfileImage;
+export default graphql(updateProfileImage)(ProfileImage);

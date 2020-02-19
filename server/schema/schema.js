@@ -118,7 +118,7 @@ const RootQuery = new GraphQLObjectType({
         });
       }
     },
-    profile: {
+    getProfile: {
       type: UserType,
       args: {
         id: { type: GraphQLID }
