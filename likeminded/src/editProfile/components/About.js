@@ -1,36 +1,40 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, TouchableWithoutFeedback} from 'react-native';
 
 class About extends Component {
   render() {
-    const {about} = this.props;
+    const {about, navigation} = this.props;
 
     return (
       <View style={{paddingHorizontal: 20, marginVertical: 20}}>
         {!about ? (
-          <View
-            style={{
-              borderColor: 'lightgrey',
-              borderStyle: 'dashed',
-              borderRadius: 5,
-              height: 50,
-              borderWidth: 1,
-            }}>
-            <Text
+          <TouchableWithoutFeedback
+            onPress={() => navigation.navigate('EditAbout')}>
+            <View
               style={{
-                lineHeight: 50,
-                marginLeft: 30,
-                color: 'grey',
+                borderColor: 'lightgrey',
+                borderStyle: 'dashed',
+                borderRadius: 5,
+                height: 50,
+                borderWidth: 1,
               }}>
-              {' '}
-              Write about Yourself{' '}
-            </Text>
-          </View>
+              <Text
+                style={{
+                  lineHeight: 50,
+                  marginLeft: 30,
+                  color: 'grey',
+                }}>
+                {' '}
+                Write about Yourself{' '}
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
         ) : (
-          <Text numberOfLines={3} style={{lineHeight: 20}}>
-            In his 1904 book Nostromo: A Tale of the Seaboard, Joseph Conrad
-            wrote, “A nickname may be the best record of a success. That’s what
-            I call putting the face of a joke upon the body of a trth.”
+          <Text
+            onPress={() => navigation.navigate('EditAbout')}
+            numberOfLines={3}
+            style={{lineHeight: 20}}>
+            {about}
           </Text>
         )}
       </View>
