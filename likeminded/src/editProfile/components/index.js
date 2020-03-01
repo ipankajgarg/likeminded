@@ -10,7 +10,9 @@ import {getProfile} from '../queries/editProfileQueries.js';
 
 class EditProfile extends Component {
   render() {
+    console.log('props', this.props);
     const {getProfile, loading} = this.props.data;
+    const {navigation} = this.props;
     return (
       !loading && (
         <View style={{flex: 1}}>
@@ -22,8 +24,8 @@ class EditProfile extends Component {
               <Text style={{fontWeight: 'bold'}}>Pankaj garg</Text>
             </View>
 
-            <About />
-            <TabView />
+            <About about={getProfile.about} navigation={navigation} />
+            <TabView crushes={getProfile.crushes} likes={getProfile.likes} />
           </ScrollView>
         </View>
       )
@@ -37,4 +39,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default graphql(getProfile)(EditProfile);
+export default graphql(getProfile, {
+  options: {
+    fetchPolicy: 'network-only',
+    ssr: false,
+  },
+})(EditProfile);

@@ -6,7 +6,7 @@ import {Text, View, StyleSheet, Platform} from 'react-native';
 //   statusCodes,
 // } from '@react-native-community/google-signin';
 import {graphql, withApollo} from 'react-apollo';
-import {isSignedInMutation} from '../../mutations/userAuthMutation';
+import {isSignedInMutation} from '../../mutations/userAuthMutations';
 //import demo from '../queries/signInQuery';
 //import {SocialIcon} from 'react-native-elements';
 //import SnackBar from 'react-native-snackbar-component';

@@ -4,9 +4,11 @@ import EditProfileComponent from '../editProfile/components';
 
 class EditProfile extends Component {
   render() {
+    const {navigation} = this.props;
+
     return (
-      <View>
-        <EditProfileComponent />
+      <View style={{flex: 1}}>
+        <EditProfileComponent navigation={navigation} />
       </View>
     );
   }

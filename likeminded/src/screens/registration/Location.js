@@ -4,7 +4,7 @@ import Geolocation from 'react-native-geolocation-service';
 //import Geocoder from 'react-native-geocoding';
 import Geocoder from 'react-native-geocoder';
 import Permissions from 'react-native-permissions';
-import {signUp} from '../../mutations/userAuthMutation';
+import {signUp} from '../../mutations/userAuthMutations';
 import {graphql} from 'react-apollo';
 
 var NY = {

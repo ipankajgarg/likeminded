@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {graphql, withApollo} from 'react-apollo';
-import {isMobileNumberExistMutation} from '../../mutations/userAuthMutation';
+import {isMobileNumberExistMutation} from '../../mutations/userAuthMutations';
 import SnackBar from 'react-native-snackbar-component';
 
 class MobileNumber extends Component {

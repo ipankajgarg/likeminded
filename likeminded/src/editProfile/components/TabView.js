@@ -4,6 +4,8 @@ import {View, Text, Dimensions, StyleSheet} from 'react-native';
 // import {createAppContainer} from 'react-navigation';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import WhoLikeYou from './WhoLikeYou';
+import WhoYouLike from './WhoYouLike';
 
 function HomeScreen() {
   return (
@@ -23,7 +25,7 @@ function SettingsScreen() {
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function App() {
+function TabView({crushes, likes}) {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -41,11 +43,11 @@ export default function App() {
           indicatorStyle: {color: 'black', backgroundColor: 'black'},
           pressOpacity: 0.2,
         }}>
-        <Tab.Screen name="Who like you" component={HomeScreen} />
-        <Tab.Screen name="Who you like" component={SettingsScreen} />
+        <Tab.Screen name="Who like you" component={WhoLikeYou} />
+        <Tab.Screen name="Who you like" component={WhoYouLike} />
       </Tab.Navigator>
     </NavigationContainer>
   );
 }
 
-// export default App;
+export default TabView;

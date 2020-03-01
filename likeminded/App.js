@@ -38,7 +38,7 @@ const MainNavigator = createStackNavigator(
       screen: EditAbout,
     },
   },
-  {initialRouteName: 'EditAbout'},
+  {initialRouteName: 'EditProfile'},
 );
 
 const App = createAppContainer(MainNavigator);
