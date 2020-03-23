@@ -84,9 +84,9 @@ const userProfile = {
       });
   },
   updateAboutMe: function(id, about) {
-    return User.findOneAndUpdate({ _id: id }, { about })
-      .then(function() {
-        return { message: "updated about me", statusCode: 200 };
+    return User.findOneAndUpdate({ _id: id }, { about }, { new: true })
+      .then(function(user) {
+        return user;
       })
       .catch(function(err) {
         return new Error(errorName.SERVER_ERROR);

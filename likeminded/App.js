@@ -8,6 +8,7 @@ import Home from './src/screens/Home';
 import InterestedIn from './src/screens/registration/InterestedIn';
 import EditProfile from './src/screens/EditProfile';
 import EditAbout from './src/screens/EditAbout';
+import Animation from './src/screens/Animation';
 
 const MainNavigator = createStackNavigator(
   {
@@ -37,8 +38,11 @@ const MainNavigator = createStackNavigator(
     EditAbout: {
       screen: EditAbout,
     },
+    Animation: {
+      screen: Animation,
+    },
   },
-  {initialRouteName: 'EditProfile'},
+  {initialRouteName: 'Animation'},
 );
 
 const App = createAppContainer(MainNavigator);

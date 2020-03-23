@@ -234,7 +234,7 @@ const Mutation = new GraphQLObjectType({
       }
     },
     updateAboutMe: {
-      type: Success,
+      type: UserType,
       args: {
         id: { type: new GraphQLNonNull(GraphQLID) },
         about: { type: new GraphQLNonNull(GraphQLString) }
