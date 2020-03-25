@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Platform,
+  StatusBar,
 } from 'react-native';
 
-var deviceWidth = Dimensions.get('window').width;
-var deviceHeight = Dimensions.get('window').height;
-console.log(deviceWidth, deviceHeight);
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
+const statusBarHeight = StatusBar.currentHeight;
 
 const dummy = [
   {
@@ -64,7 +65,7 @@ class Ball extends Component {
         y:
           Platform.OS === 'ios'
             ? deviceHeight - height
-            : deviceHeight - height - 20,
+            : deviceHeight - height - statusBarHeight,
       },
       //   overshootClamping: true,
     }).start();
@@ -85,12 +86,14 @@ class Ball extends Component {
   render() {
     const {showLayer} = this.state;
 
+    var {list, textColor, backgroundColor} = this.props;
+
     return (
       <View style={{flex: 1}}>
         <View
           style={{
             // position: 'absolute',
-            top: 0,
+            // top: 0,
             height: 100,
             width: deviceWidth,
             backgroundColor: 'black',
@@ -123,20 +126,25 @@ class Ball extends Component {
           <View
             onLayout={this.onLayout}
             style={{
-              backgroundColor: 'white',
+              backgroundColor: backgroundColor || 'white',
               borderTopLeftRadius: 30,
               borderTopRightRadius: 30,
             }}>
-            {dummy.map(({text, callBack}) => (
+            {dummy.map(({text, callBack}, index) => (
               <TouchableOpacity
-                onPress={callBack}
+                key={index}
+                onPress={() => {
+                  callBack();
+                  this.onClose();
+                }}
                 style={{borderBottomWidth: 0.3, borderColor: 'lightgrey'}}>
                 <Text
                   style={{
                     marginLeft: 20,
-                    marginBottom: 5,
-                    paddingVertical: 15,
+                    // marginBottom: 5,
+                    paddingVertical: 20,
                     paddingHorizontal: 10,
+                    color: textColor || 'black',
                   }}>
                   {text}
                 </Text>
