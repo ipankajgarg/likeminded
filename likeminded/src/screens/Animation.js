@@ -6,11 +6,39 @@ import {
   Dimensions,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
 
 var deviceWidth = Dimensions.get('window').width;
 var deviceHeight = Dimensions.get('window').height;
 console.log(deviceWidth, deviceHeight);
+
+const dummy = [
+  {
+    text: 'Click me 1',
+    callBack() {
+      console.log('click me1');
+    },
+  },
+  {
+    text: 'Click me 2',
+    callBack() {
+      console.log('click me2');
+    },
+  },
+  {
+    text: 'Click me 3',
+    callBack() {
+      console.log('click me3');
+    },
+  },
+  {
+    text: 'Click me 4',
+    callBack() {
+      console.log('click me4');
+    },
+  },
+];
 
 class Ball extends Component {
   position = new Animated.ValueXY({
@@ -31,7 +59,13 @@ class Ball extends Component {
     const {height, width} = this.state.dimensions;
     console.log(height, width);
     Animated.spring(this.state.position, {
-      toValue: {x: 0, y: deviceHeight - height},
+      toValue: {
+        x: 0,
+        y:
+          Platform.OS === 'ios'
+            ? deviceHeight - height
+            : deviceHeight - height - 20,
+      },
       //   overshootClamping: true,
     }).start();
     this.setState({showLayer: true});
@@ -70,8 +104,6 @@ class Ball extends Component {
                 width: deviceWidth,
                 height: deviceHeight,
                 backgroundColor: 'rgba(211,211,211,0.15)',
-                // opacity: 0.5,
-                //   top: 100,
               }}></View>
           </TouchableWithoutFeedback>
         )}
@@ -88,124 +120,29 @@ class Ball extends Component {
               zIndex: 100,
             },
           ]}>
-          {/* <View
-              onPress={this.onClose}
-              style={{
-                backgroundColor: 'rgba(128,128,128,0.1)',
-                // position: 'absolute',
-                // zIndex: 10,
-                // height: deviceHeight,
-                // width: deviceWidth,
-              }}> */}
           <View
             onLayout={this.onLayout}
             style={{
               backgroundColor: 'white',
-              //   height: 225,
-              borderRadius: 30,
-              // width: deviceWidth,
-              // position: 'absolute',
-
-              // zIndex: 50,
+              borderTopLeftRadius: 30,
+              borderTopRightRadius: 30,
             }}>
-            <TouchableOpacity
-              style={{borderBottomWidth: 0.2, borderColor: 'lightgrey'}}>
-              <Text
-                style={{
-                  marginLeft: 20,
-                  marginBottom: 5,
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                }}>
-                Click me
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{borderBottomWidth: 0.2, borderColor: 'lightgrey'}}>
-              <Text
-                style={{
-                  marginLeft: 20,
-                  marginBottom: 5,
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                }}>
-                Click me
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{borderBottomWidth: 0.2, borderColor: 'lightgrey'}}>
-              <Text
-                style={{
-                  marginLeft: 20,
-                  marginBottom: 5,
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                }}>
-                Click me
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{borderBottomWidth: 0.2, borderColor: 'lightgrey'}}>
-              <Text
-                style={{
-                  marginLeft: 20,
-                  marginBottom: 5,
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                }}>
-                Click me
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{borderBottomWidth: 0.2, borderColor: 'lightgrey'}}>
-              <Text
-                style={{
-                  marginLeft: 20,
-                  marginBottom: 5,
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                }}>
-                Click me
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{borderBottomWidth: 0.2, borderColor: 'lightgrey'}}>
-              <Text
-                style={{
-                  marginLeft: 20,
-                  marginBottom: 5,
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                }}>
-                Click me
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{borderBottomWidth: 0.2, borderColor: 'lightgrey'}}>
-              <Text
-                style={{
-                  marginLeft: 20,
-                  marginBottom: 5,
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                }}>
-                Click me
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{borderBottomWidth: 0.2, borderColor: 'lightgrey'}}>
-              <Text
-                style={{
-                  marginLeft: 20,
-                  marginBottom: 5,
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                }}>
-                Click me
-              </Text>
-            </TouchableOpacity>
+            {dummy.map(({text, callBack}) => (
+              <TouchableOpacity
+                onPress={callBack}
+                style={{borderBottomWidth: 0.3, borderColor: 'lightgrey'}}>
+                <Text
+                  style={{
+                    marginLeft: 20,
+                    marginBottom: 5,
+                    paddingVertical: 15,
+                    paddingHorizontal: 10,
+                  }}>
+                  {text}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
-          {/* </View> */}
         </Animated.View>
       </View>
     );
