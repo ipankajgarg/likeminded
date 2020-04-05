@@ -5,18 +5,25 @@ import {
   Image,
   TouchableWithoutFeedback,
   Dimensions,
+  Modal,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import {graphql} from 'react-apollo';
 import {updateProfileImage} from '../mutations/editProfileMutations';
+import Animation from '../../common/components/Animation';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 class ProfileImage extends Component {
-  state = {imageUri: ''};
+  state = {imageUri: '', showMenu: false, visibleModal: false};
 
   onImage = () => {
+    this.setState({showMenu: true});
+  };
+
+  changeImage = () => {
+    const {mutate} = this.props;
     console.log('on image clicked');
     ImagePicker.openPicker({
       width: deviceWidth,
@@ -25,18 +32,36 @@ class ProfileImage extends Component {
       includeBase64: true,
     })
       .then(image => {
-        console.log(image);
-        this.props.mutate({
+        mutate({
           variables: {image: image['data'], id: '5d6678e761a5793aacb42c0c'},
-        });
-        this.setState({imageUri: image['data']});
+        })
+          .then(response => {
+            this.setState({imageUri: image['data']});
+          })
+          .catch(err => console.log('error', err));
       })
       .catch(err => console.log('error', err));
   };
 
+  onOpenModal = () => {
+    this.setState({visibleModal: true});
+  };
+
+  menuList = () => {
+    const {changeImage, onOpenModal} = this;
+
+    return [
+      {
+        text: 'View Photo',
+        callback: onOpenModal,
+      },
+      {text: 'Change Photo', callback: changeImage},
+    ];
+  };
+
   render() {
     const {uri} = this.props;
-    let {imageUri} = this.state;
+    let {imageUri, visibleModal, showMenu} = this.state;
 
     imageUri = imageUri ? imageUri : uri;
 
@@ -46,12 +71,12 @@ class ProfileImage extends Component {
           <View
             style={{
               position: 'absolute',
-              bottom: -60,
+              top: -60,
               //  left: '50%',
               alignSelf: 'center',
               // borderColor: 'black',
               // backgroundColor: 'black',
-              zIndex: 10,
+              // zIndex: 10,
               // transform: 'tr',
             }}>
             <Image
@@ -69,6 +94,29 @@ class ProfileImage extends Component {
             />
           </View>
         </TouchableWithoutFeedback>
+        <Animation menu={this.menuList()} showMenu={showMenu} />
+        <Modal visible={visibleModal}>
+          <View
+            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <Text
+              style={{position: 'absolute', top: 50, left: 20}}
+              onPress={() => this.setState({visibleModal: false})}>
+              Close
+            </Text>
+            <Image
+              style={{
+                width: deviceWidth,
+                height: deviceHeight / 2,
+                // borderBottomLeftRadius: 50,
+                // borderBottomRightRadius: 50,
+                // background: 'rgba(0, 0, 0, 0.5)',
+              }}
+              source={{
+                uri: `data:image/jpeg;base64,${imageUri}`,
+              }}
+            />
+          </View>
+        </Modal>
       </View>
     );
   }

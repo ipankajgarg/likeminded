@@ -6,18 +6,24 @@ import {
   Image,
   Dimensions,
   TouchableWithoutFeedback,
+  Modal,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import {graphql, withApollo} from 'react-apollo';
 import {updateCoverImage} from '../mutations/editProfileMutations';
+import Animation from '../../common/components/Animation';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 class CoverImage extends Component {
-  state = {imageUri: ''};
+  state = {imageUri: '', showMenu: false, visibleModal: false};
 
   onImage = () => {
+    this.setState({showMenu: true});
+  };
+
+  changeImage = () => {
     const {mutate} = this.props;
     console.log('on image clicked');
     ImagePicker.openPicker({
@@ -38,31 +44,49 @@ class CoverImage extends Component {
       .catch(err => console.log('error', err));
   };
 
+  onOpenModal = () => {
+    this.setState({visibleModal: true});
+  };
+
+  menuList = () => {
+    const {changeImage, onOpenModal} = this;
+
+    return [
+      {
+        text: 'View Photo',
+        callback: onOpenModal,
+      },
+      {text: 'Change Photo', callback: changeImage},
+    ];
+  };
+
   render() {
     console.log(this.props);
     const {uri} = this.props;
-    let {imageUri} = this.state;
+    let {imageUri, visibleModal, showMenu} = this.state;
     imageUri = imageUri ? imageUri : uri;
 
     return (
       <View>
         {imageUri ? (
-          <View>
-            <Image
-              style={{
-                width: deviceWidth,
-                height: deviceHeight / 3,
-                borderBottomLeftRadius: 50,
-                borderBottomRightRadius: 50,
-                // background: 'rgba(0, 0, 0, 0.5)',
-              }}
-              source={{
-                uri: `data:image/jpeg;base64,${imageUri}`,
-              }}
-            />
-          </View>
-        ) : (
           <TouchableWithoutFeedback onPress={this.onImage}>
+            <View>
+              <Image
+                style={{
+                  width: deviceWidth,
+                  height: deviceHeight / 3,
+                  borderBottomLeftRadius: 50,
+                  borderBottomRightRadius: 50,
+                  // background: 'rgba(0, 0, 0, 0.5)',
+                }}
+                source={{
+                  uri: `data:image/jpeg;base64,${imageUri}`,
+                }}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        ) : (
+          <TouchableWithoutFeedback onPress={this.changeImage}>
             <View
               style={{
                 width: deviceWidth,
@@ -85,26 +109,29 @@ class CoverImage extends Component {
             </View>
           </TouchableWithoutFeedback>
         )}
-
-        {/* <View
-      style={{
-        position: 'absolute',
-        bottom: -60,
-        //  left: '50%',
-        alignSelf: 'center',
-        // borderColor: 'black',
-        // backgroundColor: 'black',
-        zIndex: 10,
-        // transform: 'tr',
-      }}>
-      <Image
-        style={{height: 120, width: 120, borderRadius: 60}}
-        source={{
-          uri: `https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80`,
-        }}
-      />
-    </View> */}
-        {/* <Text>i am image</Text> */}
+        <Animation menu={this.menuList()} showMenu={showMenu} />
+        <Modal visible={visibleModal}>
+          <View
+            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <Text
+              style={{position: 'absolute', top: 50, left: 20}}
+              onPress={() => this.setState({visibleModal: false})}>
+              Close
+            </Text>
+            <Image
+              style={{
+                width: deviceWidth,
+                height: deviceHeight / 2,
+                // borderBottomLeftRadius: 50,
+                // borderBottomRightRadius: 50,
+                // background: 'rgba(0, 0, 0, 0.5)',
+              }}
+              source={{
+                uri: `data:image/jpeg;base64,${imageUri}`,
+              }}
+            />
+          </View>
+        </Modal>
       </View>
     );
   }
