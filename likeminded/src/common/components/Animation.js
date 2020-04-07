@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
   StatusBar,
+  Easing,
 } from 'react-native';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -58,9 +59,9 @@ class Ball extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // if (this.props.showMenu && !prevProps.showMenu) {
-    this.startAnimate();
-    // }
+    if (this.props.visible && this.state.dimensions) {
+      this.startAnimate();
+    }
   }
 
   startAnimate = () => {
@@ -75,14 +76,23 @@ class Ball extends Component {
             ? deviceHeight - height
             : deviceHeight - height - statusBarHeight,
       },
+      // easing: Easing.back(),
+      // delay: 5000,
       //   overshootClamping: true,
     }).start();
     // this.setState({showLayer: true});
   };
   onClose = () => {
-    Animated.spring(this.state.position, {
+    Animated.timing(this.state.position, {
       toValue: {x: 0, y: deviceHeight},
-    }).start();
+      duration: 150,
+      //easing: Easing.back(),
+    }).start(({finished}) => {
+      if (finished) {
+        this.props.onClose();
+      }
+    });
+
     // this.setState({showLayer: false});
   };
   onLayout = event => {
@@ -93,10 +103,11 @@ class Ball extends Component {
   };
 
   render() {
-    const {menu, textColor, backgroundColor, showMenu} = this.props;
-    if (showMenu)
+    const {menu, textColor, backgroundColor, visible} = this.props;
+    console.log('position layout', this.state.position);
+    if (visible)
       return (
-        <View style={{position: 'absolute'}}>
+        <View style={{position: 'absolute', zIndex: 10000}}>
           {/* <View
           style={{
             // position: 'absolute',
@@ -110,7 +121,7 @@ class Ball extends Component {
               style={{
                 position: 'absolute',
                 top: 0,
-                left: 50,
+                // left: 50,
                 zIndex: 5000,
                 width: deviceWidth,
                 height: deviceHeight,
