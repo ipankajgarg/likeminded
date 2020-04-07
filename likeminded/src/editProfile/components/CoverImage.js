@@ -17,10 +17,13 @@ const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 class CoverImage extends Component {
-  state = {imageUri: '', showMenu: false, visibleModal: false};
+  state = {imageUri: '', visibleModal: false};
 
   onImage = () => {
-    this.setState({showMenu: true});
+    const {showMenu} = this.props;
+
+    const menu = this.menuList();
+    showMenu(menu);
   };
 
   changeImage = () => {
@@ -63,7 +66,7 @@ class CoverImage extends Component {
   render() {
     console.log(this.props);
     const {uri} = this.props;
-    let {imageUri, visibleModal, showMenu} = this.state;
+    let {imageUri, visibleModal} = this.state;
     imageUri = imageUri ? imageUri : uri;
 
     return (
@@ -109,7 +112,7 @@ class CoverImage extends Component {
             </View>
           </TouchableWithoutFeedback>
         )}
-        <Animation menu={this.menuList()} showMenu={showMenu} />
+
         <Modal visible={visibleModal}>
           <View
             style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>

@@ -7,18 +7,40 @@ import About from './About';
 import TabView from './TabView.js';
 
 import {getProfile} from '../queries/editProfileQueries.js';
+import Animation from '../../common/components/Animation';
 
 class EditProfile extends Component {
+  constructor(props) {
+    super();
+
+    this.state = {visible: false, menu: []};
+  }
+
+  showMenu = menu => {
+    console.log('menu', menu);
+    this.setState({visible: true, menu});
+  };
+
+  onClose = () => {
+    this.setState({visible: false, menu: []});
+  };
+
   render() {
-    console.log('props', this.props);
     const {getProfile, loading} = this.props.data;
     const {navigation} = this.props;
+    const {visible, menu} = this.state;
+
     return (
       !loading && (
         <View style={{flex: 1}}>
+          <Animation visible={visible} onClose={this.onClose} menu={menu} />
+
           <ScrollView>
-            <CoverImage uri={getProfile.coverImage} />
-            <ProfileImage uri={getProfile.profileImage} />
+            <CoverImage showMenu={this.showMenu} uri={getProfile.coverImage} />
+            <ProfileImage
+              showMenu={this.showMenu}
+              uri={getProfile.profileImage}
+            />
 
             <View style={{alignItems: 'center', marginTop: 70}}>
               <Text style={{fontWeight: 'bold'}}>Pankaj garg</Text>
@@ -39,9 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default graphql(getProfile, {
-  options: {
-    fetchPolicy: 'network-only',
-    ssr: false,
-  },
-})(EditProfile);
+export default graphql(getProfile)(EditProfile);

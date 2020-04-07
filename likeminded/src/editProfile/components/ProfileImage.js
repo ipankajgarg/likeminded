@@ -10,7 +10,6 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import {graphql} from 'react-apollo';
 import {updateProfileImage} from '../mutations/editProfileMutations';
-import Animation from '../../common/components/Animation';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -19,7 +18,11 @@ class ProfileImage extends Component {
   state = {imageUri: '', showMenu: false, visibleModal: false};
 
   onImage = () => {
-    this.setState({showMenu: true});
+    // this.setState({showMenu: true});
+    const {showMenu} = this.props;
+
+    const menu = this.menuList();
+    showMenu(menu);
   };
 
   changeImage = () => {
@@ -61,7 +64,7 @@ class ProfileImage extends Component {
 
   render() {
     const {uri} = this.props;
-    let {imageUri, visibleModal, showMenu} = this.state;
+    let {imageUri, visibleModal} = this.state;
 
     imageUri = imageUri ? imageUri : uri;
 
@@ -94,7 +97,7 @@ class ProfileImage extends Component {
             />
           </View>
         </TouchableWithoutFeedback>
-        <Animation menu={this.menuList()} showMenu={showMenu} />
+
         <Modal visible={visibleModal}>
           <View
             style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
