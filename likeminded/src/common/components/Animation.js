@@ -107,7 +107,11 @@ class Ball extends Component {
     console.log('position layout', this.state.position);
     if (visible)
       return (
-        <View style={{position: 'absolute', zIndex: 10000}}>
+        <View
+          style={{
+            position: 'absolute',
+            zIndex: 1,
+          }}>
           {/* <View
           style={{
             // position: 'absolute',
@@ -116,25 +120,14 @@ class Ball extends Component {
             width: deviceWidth,
             backgroundColor: 'black',
           }}></View> */}
-          <TouchableWithoutFeedback onPress={this.onClose}>
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                // left: 50,
-                zIndex: 5000,
-                width: deviceWidth,
-                height: deviceHeight,
-                backgroundColor: 'rgba(211,211,211,0.15)',
-              }}></View>
-          </TouchableWithoutFeedback>
+
           <Animated.View
             style={[
               this.state.position.getLayout(),
               {
                 position: 'absolute',
                 width: deviceWidth,
-                zIndex: 6000,
+                zIndex: 100,
               },
             ]}>
             <View
@@ -166,6 +159,19 @@ class Ball extends Component {
               ))}
             </View>
           </Animated.View>
+          <TouchableWithoutFeedback onPress={this.onClose}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                // left: 50,
+                zIndex: 50,
+
+                width: deviceWidth,
+                height: deviceHeight,
+                backgroundColor: 'rgba(211,211,211,0.15)',
+              }}></View>
+          </TouchableWithoutFeedback>
         </View>
       );
     return null;
