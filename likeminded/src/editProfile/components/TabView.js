@@ -1,37 +1,20 @@
 import React, {Component} from 'react';
-import {View, Text, Dimensions, StyleSheet} from 'react-native';
-// import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
-// import {createAppContainer} from 'react-navigation';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import WhoLikeYou from './WhoLikeYou';
 import WhoYouLike from './WhoYouLike';
 
-function HomeScreen() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
-
 const Tab = createMaterialTopTabNavigator();
 
 function TabView({crushes, likes}) {
   return (
-    <NavigationContainer>
+    <NavigationContainer style={{zIndex: 10}}>
       <Tab.Navigator
         tabBarOptions={{
           style: {
             backgroundColor: 'white',
+            // top: 100,
+            zIndex: 10,
           },
           labelStyle: {
             //fontWeight: 500,

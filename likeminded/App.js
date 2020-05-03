@@ -9,6 +9,7 @@ import InterestedIn from './src/screens/registration/InterestedIn';
 import EditProfile from './src/screens/EditProfile';
 import EditAbout from './src/screens/EditAbout';
 import Animation from './src/screens/Animation';
+import CardSwipe from './src/screens/CardSwipe';
 
 const MainNavigator = createStackNavigator(
   {
@@ -37,12 +38,20 @@ const MainNavigator = createStackNavigator(
     },
     EditAbout: {
       screen: EditAbout,
+      navigationOptions: () => ({headerTitle: 'About me'}),
     },
     Animation: {
       screen: Animation,
+      navigationOptions: () => ({header: null}),
+    },
+    Card: {
+      screen: CardSwipe,
     },
   },
-  {initialRouteName: 'Animation'},
+  {
+    initialRouteName: 'EditProfile',
+    navigationOptions: () => ({headerBackTitle: ''}),
+  },
 );
 
 const App = createAppContainer(MainNavigator);

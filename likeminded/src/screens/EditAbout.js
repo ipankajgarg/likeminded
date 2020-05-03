@@ -1,9 +1,55 @@
 import React, {Component} from 'react';
-import {Text, View, TextInput, StyleSheet, Platform} from 'react-native';
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  Platform,
+  Button,
+  TouchableOpacity,
+} from 'react-native';
 import {updateAboutMe} from '../mutations/editAboutMutation';
 import {graphql} from 'react-apollo';
 
 class EditAbout extends Component {
+  static navigationOptions = ({
+    navigation: {
+      state: {
+        params: {OnButtonClick},
+      },
+    },
+  }) => {
+    return {
+      headerRight: () => {
+        return (
+          <TouchableOpacity onPress={OnButtonClick}>
+            <Text style={{color: '#1DA1F2', fontSize: 18, marginRight: 20}}>
+              done
+            </Text>
+          </TouchableOpacity>
+        );
+      },
+      headerTintColor: 'black',
+      headerBackTitle: '',
+    };
+  };
+
+  constructor(props) {
+    // console.log(props.navigation.state.params);
+    console.log(props.navigation.state.params);
+    const {about} = props.navigation.state.params;
+    // console.log(props.navigation.getParam('about', 'hello'));
+
+    console.log(props.navigation);
+    super();
+    this.state = {
+      about,
+    };
+  }
+  componentDidMount() {
+    this.props.navigation.setParams({OnButtonClick: this.onSubmit});
+  }
+
   state = {about: ''};
 
   onChange = about => {
@@ -37,7 +83,7 @@ class EditAbout extends Component {
           multiline={true}
         />
 
-        <Text onPress={this.onSubmit}>click me</Text>
+        {/* <Text onPress={this.onSubmit}>click me</Text> */}
       </View>
     );
   }

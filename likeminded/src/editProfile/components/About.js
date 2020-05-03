@@ -9,7 +9,11 @@ class About extends Component {
       <View style={{paddingHorizontal: 20, marginVertical: 20}}>
         {!about ? (
           <TouchableWithoutFeedback
-            onPress={() => navigation.navigate('EditAbout')}>
+            onPress={() =>
+              navigation.navigate('EditAbout', {
+                about,
+              })
+            }>
             <View
               style={{
                 borderColor: 'lightgrey',
@@ -31,7 +35,11 @@ class About extends Component {
           </TouchableWithoutFeedback>
         ) : (
           <Text
-            onPress={() => navigation.navigate('EditAbout')}
+            onPress={() =>
+              navigation.navigate('EditAbout', {
+                about,
+              })
+            }
             numberOfLines={3}
             style={{lineHeight: 20}}>
             {about}
