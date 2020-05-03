@@ -3,8 +3,11 @@ const expressGraphql = require("express-graphql");
 const schema = require("./schema/schema");
 const mongoose = require("mongoose");
 const { errorType } = require("./constants/errors");
+const cors = require("cors");
 
 const app = express();
+
+app.use(cors());
 
 mongoose.connect(
   "mongodb://pankaj:pankaj123@ds151997.mlab.com:51997/likeminded",
