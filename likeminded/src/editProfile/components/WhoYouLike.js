@@ -8,7 +8,7 @@ class WhoYouLike extends Component {
     const {getProfile} = this.props.data;
     console.log(this.props);
     return (
-      <View style={{backgroundColor: 'white'}}>
+      <View style={{backgroundColor: 'white', flex: 1}}>
         {getProfile.likes.map(function(like) {
           return (
             <View
