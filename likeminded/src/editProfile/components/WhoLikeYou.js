@@ -9,7 +9,7 @@ class WhoLikeYou extends Component {
     const {getProfile} = this.props.data;
 
     return (
-      <View style={{backgroundColor: 'white'}}>
+      <View style={{backgroundColor: 'white', flex: 1}}>
         {getProfile.crushes.map(function(crush) {
           return (
             <View
