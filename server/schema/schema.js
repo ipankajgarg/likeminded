@@ -146,7 +146,7 @@ const RootQuery = new GraphQLObjectType({
     searchedProfiles: {
       type: new GraphQLList(UserType),
       args: {
-        name: { type: GraphQLString }
+        name: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parentValue, { name }) {
         return userProfile.getSearchedProfiles(name);
