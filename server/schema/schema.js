@@ -242,6 +242,24 @@ const Mutation = new GraphQLObjectType({
       resolve(parentValue, { id, about }) {
         return userProfile.updateAboutMe(id, about);
       }
+    },
+    uploadImageForAll: {
+      type: Success,
+      args: {
+        imageURL: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parentValue, { imageURL }) {
+        return userProfile.uploadImageForAll(imageURL);
+      }
+    },
+    updateAboutMeForAll: {
+      type: Success,
+      args: {
+        about: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parentValue, { about }) {
+        return userProfile.updateAboutMeForAll(about);
+      }
     }
   }
 });

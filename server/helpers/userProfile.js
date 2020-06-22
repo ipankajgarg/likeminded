@@ -91,6 +91,32 @@ const userProfile = {
       .catch(function(err) {
         return new Error(errorName.SERVER_ERROR);
       });
+  },
+  uploadImageForAll: function(profileImage) {
+    return User.update({}, { profileImage }, { new: true, multi: true })
+      .then(function(result) {
+        console.log(result);
+        return {
+          message: `updated ${result.nModified} from ${result.n}`,
+          statusCode: 201
+        };
+      })
+      .catch(function(err) {
+        return new Error(errorName.SERVER_ERROR);
+      });
+  },
+  updateAboutMeForAll: function(about) {
+    return User.update({}, { about }, { multi: true })
+      .then(function(result) {
+        console.log(result);
+        return {
+          message: `updated ${result.nModified} from ${result.n}`,
+          statusCode: 201
+        };
+      })
+      .catch(function(err) {
+        return new Error(errorName.SERVER_ERROR);
+      });
   }
 };
 
