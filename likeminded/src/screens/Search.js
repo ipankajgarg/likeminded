@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput} from 'react-native';
+import {View, Text, TextInput, FlatList} from 'react-native';
 import {gql} from 'apollo-boost';
 import {withApollo, graphql} from 'react-apollo';
 import {ListItem} from 'react-native-elements';
@@ -29,10 +29,15 @@ class Search extends Component {
       timeout = setTimeout(() => this.onChangeText(name), 500);
     };
   };
+  changeData = () => {
+    this.props.navigation.navigate('EditProfile');
+    // this.setState({data: []});
+  };
 
   render() {
     console.log('props', this.props);
     const {isLoading, data} = this.state;
+    console.log('state', data);
     const debounce = this.debounce();
     return (
       <View style={{flex: 1, alignItems: 'center'}}>
@@ -51,16 +56,39 @@ class Search extends Component {
             />
           </View>
 
-          {data.map(({id, name, profileImage, about}) => (
-            <ListItem
-              key={id}
-              leftAvatar={{source: {uri: profileImage}}}
-              title={name}
-              subtitle={about}
-              bottomDivider
-            />
-          ))}
+          {/* {data.map(({id, name, profileImage, about}) => (
+
+            
+           
+          ))} */}
+
           {isLoading && <Text>Loading...</Text>}
+          <FlatList
+            data={data}
+            renderItem={({item: {id, name, profileImage, about}}) => {
+              return (
+                <ListItem
+                  onPress={this.changeData}
+                  key={id}
+                  leftAvatar={{source: {uri: profileImage}}}
+                  title={name}
+                  subtitle={
+                    <View>
+                      <Text
+                        numberOfLines={2}
+                        style={{color: '#B2BCC2', fontSize: 12}}>
+                        {about}
+                      </Text>
+                    </View>
+                  }
+                  // subtitleStyle={{color: '#B2BCC2', fontSize: 12}}
+                  bottomDivider
+                />
+              );
+            }}
+            keyExtractor={item => item.id}
+            extraData={data}
+          />
         </View>
       </View>
     );
