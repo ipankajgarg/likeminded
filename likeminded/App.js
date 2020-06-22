@@ -1,6 +1,7 @@
 import React, {Fragment, Component} from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 import SignIn from './src/screens/registration/SignIn';
 import MobileNumber from './src/screens/registration/MobileNumber';
 import Location from './src/screens/registration/Location';
@@ -10,6 +11,7 @@ import EditProfile from './src/screens/EditProfile';
 import EditAbout from './src/screens/EditAbout';
 import Animation from './src/screens/Animation';
 import CardSwipe from './src/screens/CardSwipe';
+import Search from './src/screens/Search';
 
 const MainNavigator = createStackNavigator(
   {
@@ -27,7 +29,7 @@ const MainNavigator = createStackNavigator(
     },
     Location: {screen: Location, navigationOptions: () => ({header: null})},
 
-    Home: {screen: Home, navigationOptions: () => ({header: null})},
+    // Home: {screen: Home, navigationOptions: () => ({header: null})},
     InterestedIn: {
       screen: InterestedIn,
       navigationOptions: () => ({headerTitle: 'Interested In'}),
@@ -47,10 +49,20 @@ const MainNavigator = createStackNavigator(
     Card: {
       screen: CardSwipe,
     },
+    Search: {
+      screen: Search,
+      navigationOptions: () => ({
+        header: null,
+      }),
+    },
+    // Home: createBottomTabNavigator({
+    //   Search: {screen: Search},
+    //   EditProfile: EditProfile,
+    // }),
   },
   {
-    initialRouteName: 'EditProfile',
-    navigationOptions: () => ({headerBackTitle: ''}),
+    initialRouteName: 'Search',
+    navigationOptions: () => ({headerBackTitle: '', header: null}),
   },
 );
 

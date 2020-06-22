@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, TextInput} from 'react-native';
 import {gql} from 'apollo-boost';
 import {withApollo, graphql} from 'react-apollo';
+import {ListItem} from 'react-native-elements';
 
 class Search extends Component {
   state = {isLoading: false, data: []};
@@ -50,10 +51,14 @@ class Search extends Component {
             />
           </View>
 
-          {data.map(profile => (
-            <View>
-              <Text>{profile.name}</Text>
-            </View>
+          {data.map(({id, name, profileImage, about}) => (
+            <ListItem
+              key={id}
+              leftAvatar={{source: {uri: profileImage}}}
+              title={name}
+              subtitle={about}
+              bottomDivider
+            />
           ))}
           {isLoading && <Text>Loading...</Text>}
         </View>
@@ -65,6 +70,7 @@ class Search extends Component {
 const query = gql`
   query SearchedProfiles($name: String!) {
     searchedProfiles(name: $name) {
+      id
       name
       about
       profileImage
