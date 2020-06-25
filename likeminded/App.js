@@ -12,6 +12,7 @@ import EditAbout from './src/screens/EditAbout';
 import Animation from './src/screens/Animation';
 import CardSwipe from './src/screens/CardSwipe';
 import Search from './src/screens/Search';
+import Gallery from './src/screens/Gallery';
 
 const MainNavigator = createStackNavigator(
   {
@@ -55,13 +56,17 @@ const MainNavigator = createStackNavigator(
         header: null,
       }),
     },
+    Gallery: {
+      screen: Gallery,
+      navigationOptions: () => ({header: null}),
+    },
     // Home: createBottomTabNavigator({
     //   Search: {screen: Search},
     //   EditProfile: EditProfile,
     // }),
   },
   {
-    initialRouteName: 'Search',
+    initialRouteName: 'Gallery',
     navigationOptions: () => ({headerBackTitle: '', header: null}),
   },
 );
