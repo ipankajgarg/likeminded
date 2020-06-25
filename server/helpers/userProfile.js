@@ -21,40 +21,12 @@ const userProfile = {
     return User.find()
       .sort({ count: -1 })
       .then(function(doc) {
-        // console.log("inside");
-        // console.log("sort", doc.sort);
-        // console.log("after");
         return doc[0];
       });
   },
 
   getProfile: function(id) {
     return User.findById({ _id: id });
-
-    // const crushPromise = Crush.find({ _userId: id });
-
-    //const promise = new Promise(function(resolve, reject) {});
-
-    // return Promise.all([userPromise, crushPromise])
-    //   .then(function(data) {
-    //     console.log("data", data);
-    //     //return { about: "fx" };
-    //     var ids;
-    //     var obj = data[0];
-    //     if (data[1]) {
-    //       ids = data[1].map(user => user._crushId);
-
-    //       return User.find({ _id: { $in: ids } }).then(function(res) {
-    //         console.log("0", data[0]);
-    //         console.log("return data", { ...data[0], crushes: res });
-    //         console.log("0", data[0]);
-    //         return { ...obj, crushes: res };
-    //       });
-    //     }
-    //   })
-    //   .catch(err => console.log(err));
-
-    // return promise;
   },
   getPaginatedProfiles: function(pageNo, pageSize) {
     return User.find()
@@ -63,6 +35,10 @@ const userProfile = {
   },
   getSearchedProfiles: function(name) {
     return User.find({ name: { $regex: `.*${name}*.` } });
+  },
+
+  getProfileImages: function() {
+    return User.find({}, { profileImage: 1, _id: 1 });
   },
 
   updateCoverImage: function(id, coverImage) {

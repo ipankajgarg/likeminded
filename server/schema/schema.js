@@ -151,6 +151,12 @@ const RootQuery = new GraphQLObjectType({
       resolve(parentValue, { name }) {
         return userProfile.getSearchedProfiles(name);
       }
+    },
+    getProfileImages: {
+      type: new GraphQLList(UserType),
+      resolve() {
+        return userProfile.getProfileImages();
+      }
     }
   }
 });
