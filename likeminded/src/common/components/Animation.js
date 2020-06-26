@@ -94,12 +94,13 @@ class Animation extends Component {
   render() {
     const {visible, backgroundLayerColor} = this.props;
     console.log('position layout', this.state.position);
+    //hack for zindex:1
     if (visible)
       return (
         <View
           style={{
             position: 'absolute',
-            // zIndex: 1,
+            ...(Platform.OS === 'ios' && {zIndex: 1}),
           }}>
           <Animated.View
             style={[
@@ -107,7 +108,7 @@ class Animation extends Component {
               {
                 position: 'absolute',
                 width: deviceWidth,
-                zIndex: 100,
+                zIndex: 1000,
               },
             ]}>
             <View onLayout={this.onLayout}>{this.props.children}</View>
@@ -117,6 +118,7 @@ class Animation extends Component {
               style={{
                 position: 'absolute',
                 top: 0,
+                zIndex: 100,
                 width: deviceWidth,
                 height: deviceHeight,
                 backgroundColor:
