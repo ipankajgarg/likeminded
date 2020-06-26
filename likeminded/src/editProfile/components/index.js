@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import {graphql} from 'react-apollo';
 import CoverImage from './CoverImage';
 import ProfileImage from './ProfileImage';
@@ -33,7 +39,38 @@ class EditProfile extends Component {
     return (
       !loading && (
         <View style={{flex: 1}}>
-          <Animation visible={visible} onClose={this.onClose} menu={menu} />
+          {/* <Animation visible={visible} menu={menu} /> */}
+          <Animation
+            // backgroundLayerColor="black"
+            onClose={this.onClose}
+            visible={this.state.visible}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                borderTopLeftRadius: 30,
+                borderTopRightRadius: 30,
+              }}>
+              {menu.map(({text, callback}, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => {
+                    callback();
+                  }}
+                  style={{borderBottomWidth: 0.3, borderColor: 'lightgrey'}}>
+                  <Text
+                    style={{
+                      marginLeft: 20,
+
+                      paddingVertical: 20,
+                      paddingHorizontal: 10,
+                      color: 'black',
+                    }}>
+                    {text}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </Animation>
 
           <ScrollView>
             <CoverImage showMenu={this.showMenu} uri={getProfile.coverImage} />
