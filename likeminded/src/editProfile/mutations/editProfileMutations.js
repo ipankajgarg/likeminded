@@ -17,3 +17,21 @@ export const updateProfileImage = gql`
     }
   }
 `;
+
+export const likeBack = gql`
+  mutation LikeBack($id: ID!, $crushId: ID!) {
+    likeBack(id: $id, crushId: $crushId) {
+      message
+      statusCode
+    }
+  }
+`;
+
+export const mutateLikeBack = gql`
+  mutation MutateLikeBack($id: ID!, $crushId: ID!) {
+    mutateLikeBack(id: $id, crushId: $crushId) @client {
+      message
+      statusCode
+    }
+  }
+`;

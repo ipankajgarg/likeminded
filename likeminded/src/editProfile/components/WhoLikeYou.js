@@ -2,15 +2,29 @@ import React, {Component} from 'react';
 import {Text, View, Image, Button} from 'react-native';
 import {graphql} from 'react-apollo';
 import {getProfileFromClient} from '../queries/editProfileQueries';
+import {likeBack, mutateLikeBack} from '../mutations/editProfileMutations';
 
 class WhoLikeYou extends Component {
+  onLike = crushId => {
+    // 5d6678e761a5793aacb42c0c
+    console.log(this.props);
+    this.props
+      .mutate({variables: {id: '5d6678e761a5793aacb42c0c', crushId}})
+      .then(function(res) {
+        console.log(res);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  };
+
   render() {
     console.log('tabs', this.props);
     const {getProfile} = this.props.data;
-
+    console.log(this.props);
     return (
       <View style={{backgroundColor: 'white', flex: 1}}>
-        {getProfile.crushes.map(function(crush) {
+        {getProfile.crushes.map(crush => {
           return (
             <View
               style={{
@@ -39,7 +53,11 @@ class WhoLikeYou extends Component {
                   borderColor: 'black',
                   borderWidth: 1,
                 }}>
-                <Text style={{color: 'black', fontSize: 13}}>I like you</Text>
+                <Text
+                  onPress={() => this.onLike(crush.id)}
+                  style={{color: 'black', fontSize: 13}}>
+                  I like you
+                </Text>
               </View>
             </View>
           );
@@ -49,4 +67,8 @@ class WhoLikeYou extends Component {
   }
 }
 
-export default graphql(getProfileFromClient)(WhoLikeYou);
+export default graphql(mutateLikeBack, {name: 'client'})(
+  graphql(likeBack, {name: 'server'})(
+    graphql(getProfileFromClient)(WhoLikeYou),
+  ),
+);
