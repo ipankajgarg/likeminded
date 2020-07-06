@@ -219,6 +219,17 @@ const Mutation = new GraphQLObjectType({
         return userCrush.add(id, crushId);
       }
     },
+    likeBack: {
+      type: Success,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        crushId: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parentValue, { id, crushId }) {
+        return userCrush.likeBack(id, crushId);
+      }
+    },
+
     updateCoverImage: {
       type: Success,
       args: {

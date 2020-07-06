@@ -16,6 +16,23 @@ const userCrush = {
     });
   },
 
+  likeBack: function(_userId, _crushId) {
+    console.log("function");
+    return Crush.findOneAndUpdate(
+      { _crushId: _userId, _userId: _crushId },
+      { likeminded: true },
+      { new: true }
+    )
+      .then(function(user) {
+        console.log("user");
+        return { message: "success", statusCode: 200 };
+      })
+      .catch(function(err) {
+        console.log("err");
+        new Error(errorName.SERVER_ERROR);
+      });
+  },
+
   getProfiles: function(id) {
     console.log("id", id);
 
