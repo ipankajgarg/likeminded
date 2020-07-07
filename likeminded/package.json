@@ -17,7 +17,7 @@
     "apollo-cache-inmemory": "^1.6.5",
     "graphql": "^14.5.4",
     "react": "16.8.6",
-    "react-apollo": "^3.0.1",
+    "react-apollo": "2.5.8",
     "react-native": "0.60.5",
     "react-native-cli": "^2.0.1",
     "react-native-elements": "^1.1.0",
