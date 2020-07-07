@@ -1,17 +1,19 @@
 import React, {Component} from 'react';
 import {Text, View, Image, Button} from 'react-native';
-import {graphql} from 'react-apollo';
+import {graphql, compose} from 'react-apollo';
 import {getProfileFromClient} from '../queries/editProfileQueries';
 import {likeBack, mutateLikeBack} from '../mutations/editProfileMutations';
 
 class WhoLikeYou extends Component {
   onLike = crushId => {
     // 5d6678e761a5793aacb42c0c
+    const {clientMutate, serverMutate} = this.props;
     console.log(this.props);
-    this.props
-      .mutate({variables: {id: '5d6678e761a5793aacb42c0c', crushId}})
+    //just for faster purpose
+    clientMutate({variables: {id: '5d6678e761a5793aacb42c0c', crushId}});
+    serverMutate({variables: {id: '5d6678e761a5793aacb42c0c', crushId}})
       .then(function(res) {
-        console.log(res);
+        //onsuccess mutate client
       })
       .catch(function(err) {
         console.log(err);
@@ -67,8 +69,14 @@ class WhoLikeYou extends Component {
   }
 }
 
-export default graphql(mutateLikeBack, {name: 'client'})(
-  graphql(likeBack, {name: 'server'})(
-    graphql(getProfileFromClient)(WhoLikeYou),
-  ),
-);
+// export default graphql(mutateLikeBack, {name: 'client'})(
+//   graphql(likeBack, {name: 'server'})(
+//     graphql(getProfileFromClient)(WhoLikeYou),
+//   ),
+// );
+
+export default compose(
+  graphql(mutateLikeBack, {name: 'clientMutate'}),
+  graphql(likeBack, {name: 'serverMutate'}),
+  graphql(getProfileFromClient),
+)(WhoLikeYou);
