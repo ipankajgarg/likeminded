@@ -16,3 +16,31 @@ export default function ImageView({imageURL, height = windowHeight / 4}) {
     </View>
   );
 }
+
+// export default class ImageView extends Component {
+//   state = {height: 50};
+
+//   componentDidMount() {
+//     const {imageURL} = this.props;
+//     Image.getSize(imageURL, (width, height) => {
+//       console.log(height);
+//       this.setState({height});
+//     });
+//   }
+
+//   render() {
+//     const {height} = this.state;
+//     const {imageURL} = this.props;
+//     return (
+//       <View style={{width: windowWidth}}>
+//         <Image
+//           style={{width: windowWidth, height}}
+//           source={{
+//             uri: imageURL,
+//           }}
+//           // resizeMode="contain"
+//         />
+//       </View>
+//     );
+//   }
+// }

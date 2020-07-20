@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList, ScrollView, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import {graphql} from 'react-apollo';
 import {fetchImages} from '../queries/fetchImagesQuery';
 import ImageView from '../common/components/ImageView';
@@ -10,9 +17,16 @@ class Gallery extends Component {
   renderImages = ({item, index}) => {
     console.log(item, index);
     return (
-      <View style={{borderTopWidth: index > 0 ? 1 : 0, borderColor: 'white'}}>
-        <ImageView imageURL={item.profileImage} height={windowHeight / 4} />
-      </View>
+      <TouchableOpacity
+        onPress={() => {
+          console.log('press', this.props);
+
+          this.props.navigation.navigate('Profile', {item});
+        }}>
+        <View style={{borderTopWidth: index > 0 ? 1 : 0, borderColor: 'white'}}>
+          <ImageView imageURL={item.profileImage} height={windowHeight / 4} />
+        </View>
+      </TouchableOpacity>
     );
   };
 

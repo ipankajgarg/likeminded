@@ -4,6 +4,9 @@ export const fetchImages = gql`
   query {
     getProfileImages {
       profileImage
+      coverImage
+      name
+      about
       id
     }
   }
