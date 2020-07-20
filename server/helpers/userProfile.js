@@ -38,7 +38,10 @@ const userProfile = {
   },
 
   getProfileImages: function() {
-    return User.find({}, { profileImage: 1, _id: 1 });
+    return User.find(
+      {},
+      { profileImage: 1, _id: 1, coverImage: 1, name: 1, about: 1 }
+    );
   },
 
   updateCoverImage: function(id, coverImage) {
